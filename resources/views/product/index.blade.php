@@ -12,5 +12,8 @@
             </li>
 @endforeach
         </ul>
+
+        <hr>
+        <a href="{{route('product.new')}}">新規登録</a>
     </body>
 </html>

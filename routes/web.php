@@ -23,5 +23,11 @@ use App\Http\Controllers\ProductController;
 
 Auth::routes();
 
-Route::get('/product',[App\Http\Controllers\ProductController::class,'index'])->name('product.index');
+Route::get('/product',[App\Http\Controllers\ProductController::class,'index']) -> name('product.index');
+
+/* 新規作成ページ */
+Route::get('/product/new',[App\Http\Controllers\ProductController::class,'new']) -> name('product.new');
+
+/* 新規追加処理 */
+Route::post('/product/create',[App\Http\Controllers\ProductController::class,'create']) -> name('product.create');
 
