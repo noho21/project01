@@ -31,3 +31,6 @@ Route::get('/product/new',[App\Http\Controllers\ProductController::class,'new'])
 /* 新規追加処理 */
 Route::post('/product/create',[App\Http\Controllers\ProductController::class,'create']) -> name('product.create');
 
+/* 詳細ページ */
+Route::get('/product/show/{id}',[App\Http\Controllers\ProductController::class,'show']) -> name('product.show');
+

@@ -29,13 +29,21 @@ class ProductController extends Controller
         $stock = $request -> input("stock");
         $comment = $request -> input("comment");
 
-        Log::debug('[ProductController][create]input=>',[$product_name,$price,$stock,$comment]);
+        Log::debug('[ProductController][create]input => ',[$product_name,$price,$stock,$comment]);
         Product::create([
             "product_name" => $product_name,
             "price" => $price,
             "stock" => $stock,
-            "comment" => $comment
+            "comment" => $comment,
         ]);
         return redirect()->Route('product.new');
+    }
+
+    /* 詳細ページ */
+    public function show(Request $request, $id){
+        Log::debug('[ProductController][show]');
+        Log::debug('[ProductController][show] path => {$id}');
+        $product = Product::find($id);
+        return view('product.show',['product' => $product]);
     }
 }
