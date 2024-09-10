@@ -46,4 +46,30 @@ class ProductController extends Controller
         $product = Product::find($id);
         return view('product.show',['product' => $product]);
     }
+
+    /* 編集ページ */
+    public function edit(Request $request, $id){
+        Log::debug('[ProductController][edit]');
+        Log::debug('[ProductController][edit] path => {$id}');
+        $product = Product::find($id);
+        return view('product.edit',['product' => $product]);
+    }
+
+    /* 編集処理 */
+    public function update(Request $request){
+        Log::debug('[ProductController][update]');
+        $id = $request -> input("id");
+        $product_name = $request ->input("product_name");
+        $price = $request -> input("price");
+        $stock = $request -> input("stock");
+        $comment = $request -> input("commnet");
+        Log::debug('[ProductController][update] input => [$id, $product_name, $price, $stock, $commnet]');
+        $product = Product::find($id);
+        $product -> product_name = $product_name;
+        $product -> price = $price;
+        $product -> stock = $stock;
+        $product -> comment = $comment;
+        $product -> save();
+        return redirect() -> route('product.edit', ['id' => $id]);
+    }
 }

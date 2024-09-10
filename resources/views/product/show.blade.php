@@ -9,6 +9,8 @@
                 <div>在庫数:{{$product -> stock}}</div>
                 <div>コメント:{{$product -> comment}}</div>
             </li>
+            <a href="{{route('product.edit', ['id' => $product_id])}}">編集</a>
+            <a href="{{route('product.index')}}">戻る</a>
         </ul>
     </body>
 </html>
