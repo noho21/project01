@@ -23,20 +23,22 @@ use App\Http\Controllers\ProductController;
 
 Auth::routes();
 
-Route::get('/product',[App\Http\Controllers\ProductController::class,'index']) -> name('product.index');
+Route::get('/product', [App\Http\Controllers\ProductController::class, 'index']) -> name('product.index');
 
 /* 新規作成ページ */
-Route::get('/product/new',[App\Http\Controllers\ProductController::class,'new']) -> name('product.new');
+Route::get('/product/new', [App\Http\Controllers\ProductController::class, 'new']) -> name('product.new');
 
 /* 新規追加処理 */
-Route::post('/product/create',[App\Http\Controllers\ProductController::class,'create']) -> name('product.create');
+Route::post('/product/create', [App\Http\Controllers\ProductController::class, 'create']) -> name('product.create');
 
 /* 詳細ページ */
-Route::get('/product/show/{id}',[App\Http\Controllers\ProductController::class,'show']) -> name('product.show');
+Route::get('/product/show/{id}', [App\Http\Controllers\ProductController::class, 'show']) -> name('product.show');
 
 /* 編集ページ */
-Route::get('/product/edit/{id}',[ProductController::class,'edit']) -> name('product.edit');
+Route::get('/product/edit/{id}', [ProductController::class, 'edit']) -> name('product.edit');
 
 /* 編集処理 */
-Route::get('/product/update',[ProductController::class,'update']) -> name('product.update');
+Route::get('/product/update', [ProductController::class, 'update']) -> name('product.update');
 
+/* 削除処理 */
+Route::post('/product/delete', [ProductController::class, 'delete']) -> name('produnt.delete');

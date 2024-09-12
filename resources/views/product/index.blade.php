@@ -9,7 +9,13 @@
                 <div>{{$product -> price}}</div>
                 <div>{{$produvt -> stock}}</div>
                 <div>{{$product -> comment}}</div>
-                <a href="{route('product.show',['id' => $product -> id])}">詳細</a>
+                <a href="{route('product.show', ['id' => $product -> id])}">詳細</a>
+
+                <form action = "{{foute('product.delete')" method = "post">
+                    @csrf
+                    <input type = "hidden" name = "id" value = "{{$product -> id}}">
+                    <input type= "submit" value = "削除">
+                </form>
             </li>
 @endforeach
         </ul>
