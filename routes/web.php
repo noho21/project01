@@ -35,10 +35,10 @@ Route::post('/product/create', [App\Http\Controllers\ProductController::class, '
 Route::get('/product/show/{id}', [App\Http\Controllers\ProductController::class, 'show']) -> name('product.show');
 
 /* 編集ページ */
-Route::get('/product/edit/{id}', [ProductController::class, 'edit']) -> name('product.edit');
+Route::get('/product/edit/{id}', [App\Http\Controllers\ProductController::class, 'edit']) -> name('product.edit');
 
 /* 編集処理 */
-Route::get('/product/update', [ProductController::class, 'update']) -> name('product.update');
+Route::post('/product/update', [App\Http\Controllers\ProductController::class, 'update']) -> name('product.update');
 
 /* 削除処理 */
-Route::post('/product/delete', [ProductController::class, 'delete']) -> name('produnt.delete');
+Route::post('/product/delete', [App\Http\Controllers\ProductController::class, 'delete']) -> name('product.delete');

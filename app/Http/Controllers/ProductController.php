@@ -5,19 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Log;
+use App\Models\Company;
 
 
 class ProductController extends Controller
 {
     /* 一覧ページ */
     public function index(Request $request) {
+        $companies = Company::all();
         $products = Product::all();
-        return view ('product.index', ['products' => $products]);
+        return view ('product.index', [
+            'products' => $products,
+            'companies' => $companies,
+        ]);
     }
 
     /* 新規作成ページ */
     public function new(Request $request) {
+        $companies = Company::all();
         return view('product.new',[
+            'companies' => $companies,
         ]);
     }
 
@@ -28,6 +35,7 @@ class ProductController extends Controller
         $price = $request -> input("price");
         $stock = $request -> input("stock");
         $comment = $request -> input("comment");
+        $company_id = $request -> input("company_id");
 
         Log::debug('[ProductController][create]input => ', [$product_name,$price,$stock,$comment]);
         Product::create([
@@ -35,6 +43,7 @@ class ProductController extends Controller
             "price" => $price,
             "stock" => $stock,
             "comment" => $comment,
+            "company_id" => $company_id,
         ]);
         return redirect() -> Route('product.new');
     }
@@ -49,10 +58,14 @@ class ProductController extends Controller
 
     /* 編集ページ */
     public function edit(Request $request, $id) {
+        $companies = Company::all();
         Log::debug('[ProductController][edit]');
         Log::debug('[ProductController][edit] path => {$id}');
         $product = Product::find($id);
-        return view('product.edit', ['product' => $product]);
+        return view('product.edit', [
+            'product' => $product,
+            'companies' => $companies,
+        ]);
     }
 
     /* 編集処理 */ 
@@ -63,12 +76,14 @@ class ProductController extends Controller
         $price = $request -> input("price");
         $stock = $request -> input("stock");
         $comment = $request -> input("commnet");
+        $company_id = $request -> input("company_id");
         Log::debug('[ProductController][update] input => [$id, $product_name, $price, $stock, $commnet]');
         $product = Product::find($id);
         $product -> product_name = $product_name;
         $product -> price = $price;
         $product -> stock = $stock;
         $product -> comment = $comment;
+        $product -> company_id = $company_id;
         $product -> save();
         return redirect() -> route('product.edit', ['id' => $id]);
     }

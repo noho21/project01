@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Models\Company;
 
 class Product extends Model
 {
@@ -12,8 +12,13 @@ class Product extends Model
 
     protected $fillable = [
         "product_name",
+        "company_id",
         "price",
         "stock",
         "comment",
     ];
+
+    public function company() {
+        return $this -> belongsTo(Company::class);
+    }
 }

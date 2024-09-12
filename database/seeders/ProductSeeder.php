@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        Product::create([
+        /*  Product::create([
             "product_name" => "コーラ",
             "price" => "160",
             "stock" => "6",
@@ -27,6 +27,6 @@ class ProductSeeder extends Seeder
             "price" => "130",
             "stock" => "4",
             "comment" => "スッキリ"
-        ]);
+        ]); */
     }
 }

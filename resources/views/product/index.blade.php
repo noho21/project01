@@ -7,11 +7,11 @@
                 <div>{{$product -> id}}</div>
                 <div>{{$product -> product_name}}</div>
                 <div>{{$product -> price}}</div>
-                <div>{{$produvt -> stock}}</div>
-                <div>{{$product -> comment}}</div>
+                <div>{{$product -> stock}}</div>
+                <div>{{$product -> company -> company_name}}</div>
                 <a href="{route('product.show', ['id' => $product -> id])}">詳細</a>
 
-                <form action = "{{foute('product.delete')" method = "post">
+                <form action = "{{foute('product.delete')}}" method = "post">
                     @csrf
                     <input type = "hidden" name = "id" value = "{{$product -> id}}">
                     <input type= "submit" value = "削除">

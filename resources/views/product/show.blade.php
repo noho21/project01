@@ -5,6 +5,7 @@
             <li>
                 <div>ID:{{$product -> id}}</div>
                 <div>商品名:{{$product -> product_name}}</div>
+                <div>メーカー名:{{$product -> company -> company_name}}</div>
                 <div>価格:{{$product -> price}}</div>
                 <div>在庫数:{{$product -> stock}}</div>
                 <div>コメント:{{$product -> comment}}</div>
