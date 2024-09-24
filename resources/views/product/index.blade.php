@@ -8,7 +8,7 @@
                 <div>{{$product -> product_name}}</div>
                 <div>{{$product -> price}}</div>
                 <div>{{$product -> stock}}</div>
-                <div>{{$product -> company -> company_name}}</div>
+                <div>{{$product -> company -> company_name ?? 'デフォルトの会社名'}}</div>
                 <a href="{route('product.show', ['id' => $product -> id])}">詳細</a>
 
                 <form action = "{{foute('product.delete')}}" method = "post">
