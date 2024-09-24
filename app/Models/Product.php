@@ -16,6 +16,7 @@ class Product extends Model
         "price",
         "stock",
         "comment",
+        "filename",
     ];
 
     public function company() {

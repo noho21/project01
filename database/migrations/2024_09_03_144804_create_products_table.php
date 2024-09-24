@@ -21,6 +21,7 @@ return new class extends Migration
             $table -> integer('price');
             $table -> integer('stock');
             $table -> text('comment');
+            $table -> string('filename');
             $table -> timestamps();
         });
     }

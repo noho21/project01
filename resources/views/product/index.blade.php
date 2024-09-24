@@ -5,6 +5,7 @@
 @foreach( $products as $product)
             <li>
                 <div>{{$product -> id}}</div>
+                <img style = "height: 100px; width: 100px;" src = "{{route('product.getfile', ['id' => $product -> $id]}}">
                 <div>{{$product -> product_name}}</div>
                 <div>{{$product -> price}}</div>
                 <div>{{$product -> stock}}</div>

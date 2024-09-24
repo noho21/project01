@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Log;
 use App\Models\Company;
+use Illuminate\Support\Facades\Storage;
 
 
 class ProductController extends Controller
@@ -36,15 +37,28 @@ class ProductController extends Controller
         $stock = $request -> input("stock");
         $comment = $request -> input("comment");
         $company_id = $request -> input("company_id");
+        $uploadedfile = $request -> file('file');
+        $filename = $uploadedfile -> getClientOriginalName();
+        
+        if($uploadedfile) {
+            $filename = $uploadedfile -> getClientOriginalName();
+        } else {
+            $filename = "";
+        }
 
-        Log::debug('[ProductController][create]input => ', [$product_name,$price,$stock,$comment]);
-        Product::create([
+        Log::debug('[ProductController][create]input => ', [$product_name, $price, $stock, $comment, $filename]);
+        $product = Product::create([ 
             "product_name" => $product_name,
             "price" => $price,
             "stock" => $stock,
             "comment" => $comment,
             "company_id" => $company_id,
+            "filename" => $filename,
         ]);
+
+        if($uploadedfile){
+            $uploadedfile -> storeAs('', $product -> id);
+        }
         return redirect() -> Route('product.new');
     }
 
@@ -77,6 +91,9 @@ class ProductController extends Controller
         $stock = $request -> input("stock");
         $comment = $request -> input("commnet");
         $company_id = $request -> input("company_id");
+        $uploadedfile = $request -> file('file');
+        $filename = $uploadedfile -> getClientOriginalName();
+
         Log::debug('[ProductController][update] input => [$id, $product_name, $price, $stock, $commnet]');
         $product = Product::find($id);
         $product -> product_name = $product_name;
@@ -84,6 +101,10 @@ class ProductController extends Controller
         $product -> stock = $stock;
         $product -> comment = $comment;
         $product -> company_id = $company_id;
+        $product -> filename = $filename;
+        if($uploadedfile){
+            $uploadedfile -> storeAs('', $product -> id);
+        }
         $product -> save();
         return redirect() -> route('product.edit', ['id' => $id]);
     }
@@ -96,5 +117,15 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product -> delete();
         return redirect() -> route("product.index");
+    }
+
+    /* ファイル処理 */
+    public function getfile(Request $request, $id) {
+        $product = Product::find($id);
+        $storedfilename = Storage::path('product/', $product -> id);
+        $filename = $product -> name;
+        $mimeType = Storage::mimeType($storedfilename);
+        $headers = ['Content-Type' => $mimeType];
+        return Storage::response($storedfilename, $filename, $headers);
     }
 }

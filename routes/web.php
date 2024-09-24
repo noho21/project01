@@ -42,3 +42,6 @@ Route::post('/product/update', [App\Http\Controllers\ProductController::class, '
 
 /* 削除処理 */
 Route::post('/product/delete', [App\Http\Controllers\ProductController::class, 'delete']) -> name('product.delete');
+
+/* ファイル処理 */
+Route::get('/product/getfile/{id}', [ProductController::class, 'getfile']) -> name('product.filename');

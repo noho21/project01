@@ -14,6 +14,7 @@
             価格:<input type = "text" name = "price" value = "{{$product -> price}}"><br/>
             在庫数:<input type = "text" name = "stock" value = "{{$product -> stock}}"><br/>
             コメント:<textarea>"{{$product -> comment}}"</textarea><br/>
+            商品画像:<input type = "file" name = "file" value = "{{$produt -> file}}"><br/>
             <input type = "submit" value = "送信">
             <a href = "{{route('product.show', ['id' => $product_id])}}">戻る</a>
         </form>
