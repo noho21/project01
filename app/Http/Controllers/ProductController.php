@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Log;
 use App\Models\Company;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 
 class ProductController extends Controller
@@ -31,33 +32,40 @@ class ProductController extends Controller
 
     /* 新規追加処理 */
     public function create(Request $request) {
-        Log::debug('[ProductController][create]');
-        $product_name = $request -> input("product_name");
-        $price = $request -> input("price");
-        $stock = $request -> input("stock");
-        $comment = $request -> input("comment");
-        $company_id = $request -> input("company_id");
-        $uploadedfile = $request -> file('file');
-        $filename = $uploadedfile -> getClientOriginalName();
-        
-        if($uploadedfile) {
+        DB::beginTransaction();
+        try{
+            Log::debug('[ProductController][create]');
+            $product_name = $request -> input("product_name");
+            $price = $request -> input("price");
+            $stock = $request -> input("stock");
+            $comment = $request -> input("comment");
+            $company_id = $request -> input("company_id");
+            $uploadedfile = $request -> file('file');
             $filename = $uploadedfile -> getClientOriginalName();
-        } else {
-            $filename = "";
-        }
+            
+            if($uploadedfile) {
+                $filename = $uploadedfile -> getClientOriginalName();
+            } else {
+                $filename = "";
+            }
 
-        Log::debug('[ProductController][create]input => ', [$product_name, $price, $stock, $comment, $filename]);
-        $product = Product::create([ 
-            "product_name" => $product_name,
-            "price" => $price,
-            "stock" => $stock,
-            "comment" => $comment,
-            "company_id" => $company_id,
-            "filename" => $filename,
-        ]);
+            Log::debug('[ProductController][create]input => ', [$product_name, $price, $stock, $comment, $filename]);
+            $product = Product::create([ 
+                "product_name" => $product_name,
+                "price" => $price,
+                "stock" => $stock,
+                "comment" => $comment,
+                "company_id" => $company_id,
+                "filename" => $filename,
+            ]);
 
-        if($uploadedfile){
-            $uploadedfile -> storeAs('', $product -> id);
+            if($uploadedfile){
+                $uploadedfile -> storeAs('', $product -> id);
+            }
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollBack();
+            return redirect() -> back() -> with('error', '商品の生成中にエラーが起きました。');
         }
         return redirect() -> Route('product.new');
     }
@@ -84,38 +92,52 @@ class ProductController extends Controller
 
     /* 編集処理 */ 
     public function update(Request $request) {
-        Log::debug('[ProductController][update]');
-        $id = $request -> input("id");
-        $product_name = $request ->input("product_name");
-        $price = $request -> input("price");
-        $stock = $request -> input("stock");
-        $comment = $request -> input("commnet");
-        $company_id = $request -> input("company_id");
-        $uploadedfile = $request -> file('file');
-        $filename = $uploadedfile -> getClientOriginalName();
+        DB::beginTransaction();
+        try{
+            Log::debug('[ProductController][update]');
+            $id = $request -> input("id");
+            $product_name = $request ->input("product_name");
+            $price = $request -> input("price");
+            $stock = $request -> input("stock");
+            $comment = $request -> input("commnet");
+            $company_id = $request -> input("company_id");
+            $uploadedfile = $request -> file('file');
+            $filename = $uploadedfile -> getClientOriginalName();
 
-        Log::debug('[ProductController][update] input => [$id, $product_name, $price, $stock, $commnet]');
-        $product = Product::find($id);
-        $product -> product_name = $product_name;
-        $product -> price = $price;
-        $product -> stock = $stock;
-        $product -> comment = $comment;
-        $product -> company_id = $company_id;
-        $product -> filename = $filename;
-        if($uploadedfile){
-            $uploadedfile -> storeAs('', $product -> id);
+            Log::debug('[ProductController][update] input => [$id, $product_name, $price, $stock, $commnet]');
+            $product = Product::find($id);
+            $product -> product_name = $product_name;
+            $product -> price = $price;
+            $product -> stock = $stock;
+            $product -> comment = $comment;
+            $product -> company_id = $company_id;
+            $product -> filename = $filename;
+            if($uploadedfile){
+                $uploadedfile -> storeAs('', $product -> id);
+            }
+            $product -> save();
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->back()->with('error','商品の更新中にエラーが発生しました。');
         }
-        $product -> save();
         return redirect() -> route('product.edit', ['id' => $id]);
     }
 
     /* 削除処理 */
     public function delete(Request $request) {
-        Log::debug('[ProductController][delete]');
-        $id = $request -> input('id');
-        Log::debug('[ProductController][delete]input => ', [$id]);
-        $product = Product::find($id);
-        $product -> delete();
+        DB::beginTransaction();
+        try{
+            Log::debug('[ProductController][delete]');
+            $id = $request -> input('id');
+            Log::debug('[ProductController][delete]input => ', [$id]);
+            $product = Product::find($id);
+            $product -> delete();
+            DB::commit();
+        }catch(\Exception $e){
+            DB::rollback();
+            return redirect()->back()->with('error','商品の更新中にエラーが発生しました。');
+        }
         return redirect() -> route("product.index");
     }
 
