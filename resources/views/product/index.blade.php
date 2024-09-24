@@ -11,7 +11,7 @@
                 <div>{{$product -> company -> company_name ?? 'デフォルトの会社名'}}</div>
                 <a href="{route('product.show', ['id' => $product -> id])}">詳細</a>
 
-                <form action = "{{foute('product.delete')}}" method = "post">
+                <form action = "{{route('product.delete')}}" method = "post">
                     @csrf
                     <input type = "hidden" name = "id" value = "{{$product -> id}}">
                     <input type= "submit" value = "削除">
