@@ -43,6 +43,7 @@ class ProductController extends Controller
             $uploadedfile = $request -> file('file');
             $filename = $uploadedfile -> getClientOriginalName();
             
+            $product = Product::createProduct($product_name,$price,$stock,$comment,$company_id,$filename);
             if($uploadedfile) {
                 $filename = $uploadedfile -> getClientOriginalName();
             } else {
@@ -99,23 +100,18 @@ class ProductController extends Controller
             $product_name = $request ->input("product_name");
             $price = $request -> input("price");
             $stock = $request -> input("stock");
-            $comment = $request -> input("commnet");
+            $comment = $request -> input("comment");
             $company_id = $request -> input("company_id");
             $uploadedfile = $request -> file('file');
-            $filename = $uploadedfile -> getClientOriginalName();
+            $filename = $uploadedfile ? $uploadedfile->getClientOriginalName() : null;
+           
+            Log::debug('[ProductController][update] input => [$id, $product_name, $price, $stock, $comment]');
+            Product::updateProduct($id, $product_name, $price, $stock, $comment, $company_id, $filename);
 
-            Log::debug('[ProductController][update] input => [$id, $product_name, $price, $stock, $commnet]');
-            $product = Product::find($id);
-            $product -> product_name = $product_name;
-            $product -> price = $price;
-            $product -> stock = $stock;
-            $product -> comment = $comment;
-            $product -> company_id = $company_id;
-            $product -> filename = $filename;
             if($uploadedfile){
-                $uploadedfile -> storeAs('', $product -> id);
+                $uploadedfile -> storeAs('', $id);
             }
-            $product -> save();
+
             DB::commit();
         }catch(\Exception $e){
             DB::rollback();
@@ -131,6 +127,7 @@ class ProductController extends Controller
             Log::debug('[ProductController][delete]');
             $id = $request -> input('id');
             Log::debug('[ProductController][delete]input => ', [$id]);
+            Product::deleteProduct($id);
             $product = Product::find($id);
             $product -> delete();
             DB::commit();
