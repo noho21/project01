@@ -17,9 +17,9 @@ class ProductController extends Controller
     public function index(Request $request) {
         $companies = Company::all();
         $products = Product::all();
+        $product = Product::paginate(2);
         return view ('product.index', [
             'products' => $products,
-            'companies' => $companies,
         ]);
     }
 

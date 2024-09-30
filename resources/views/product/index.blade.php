@@ -1,8 +1,9 @@
 <html>
     <body>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
         <h1>商品一覧画面</h1>
         <ul>
-@foreach( $products as $product)
+            @foreach( $products as $product)
             <li>
                 <div>{{$product -> id}}</div>
                 <img style = "height: 100px; width: 100px;" src = "{{route('product.getfile', ['id' => $product -> $id]}}">
@@ -18,10 +19,13 @@
                     <input type= "submit" value = "削除">
                 </form>
             </li>
-@endforeach
+            @endforeach
         </ul>
-
+        <div>
+        {{ $products->links('vendor.pagination.bootstrap-4') }}
+        </div>
         <hr>
         <a href="{{route('product.new')}}">新規登録</a>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </body>
 </html>
