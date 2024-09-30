@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Company;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\ProductCreateRequest;
 
 
 class ProductController extends Controller
@@ -31,7 +32,7 @@ class ProductController extends Controller
     }
 
     /* 新規追加処理 */
-    public function create(Request $request) {
+    public function create(ProductCreateRequest $request) {
         DB::beginTransaction();
         try{
             Log::debug('[ProductController][create]');
@@ -49,6 +50,12 @@ class ProductController extends Controller
             } else {
                 $filename = "";
             }
+
+            $validated = $request->validated();
+            $product_name = $validated['product_name'];
+            $price = $validated['price'];
+            $stock = $validated['stock'];
+            $comment = $validated['comment'];
 
             Log::debug('[ProductController][create]input => ', [$product_name, $price, $stock, $comment, $filename]);
             $product = Product::create([ 
@@ -68,7 +75,7 @@ class ProductController extends Controller
             DB::rollBack();
             return redirect() -> back() -> with('error', '商品の生成中にエラーが起きました。');
         }
-        return redirect() -> Route('product.new');
+        return redirect() -> route('product.new');
     }
 
     /* 詳細ページ */
@@ -92,7 +99,7 @@ class ProductController extends Controller
     }
 
     /* 編集処理 */ 
-    public function update(Request $request) {
+    public function update(ProductCreateRequest $request) {
         DB::beginTransaction();
         try{
             Log::debug('[ProductController][update]');
@@ -104,6 +111,12 @@ class ProductController extends Controller
             $company_id = $request -> input("company_id");
             $uploadedfile = $request -> file('file');
             $filename = $uploadedfile ? $uploadedfile->getClientOriginalName() : null;
+
+            $validated = $request->validated();
+            $product_name = $validated['product_name'];
+            $price = $validated['price'];
+            $stock = $validated['stock'];
+            $comment = $validated['comment'];
            
             Log::debug('[ProductController][update] input => [$id, $product_name, $price, $stock, $comment]');
             Product::updateProduct($id, $product_name, $price, $stock, $comment, $company_id, $filename);
