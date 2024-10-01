@@ -2,6 +2,18 @@
     <body>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
         <h1>商品一覧画面</h1>
+        <div>
+            <form method = "GET" action = "{{route('product/index')}}">
+                @csrf
+                <input type = "text" name = "product_name" placeholder = "表品名">
+                <select name="company_id">
+                    @foreach($companies as $company)
+                        <option value="{{company -> id}}">{{$company -> company_name}}</option>
+                    @endforeach
+                </select>
+                <input type="submit" value="検索">
+            </form>
+        </div>
         <ul>
             @foreach( $products as $product)
             <li>

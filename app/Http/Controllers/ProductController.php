@@ -16,10 +16,12 @@ class ProductController extends Controller
     /* 一覧ページ */
     public function index(Request $request) {
         $companies = Company::all();
-        $products = Product::all();
-        $product = Product::paginate(2);
+        $product_name = $request -> input('product_name');
+        $company_id = $request -> input('company_id');
+        $products = Product::where('product_name', 'like', "%product_name%") -> where('company_id', 'like', "%company_id%") -> paginate(2);
         return view ('product.index', [
             'products' => $products,
+            'companies' => $companies,
         ]);
     }
 
