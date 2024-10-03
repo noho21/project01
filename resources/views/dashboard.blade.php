@@ -11,6 +11,10 @@
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in!") }}
                 </div>
+                <div class="p-6 text-gray-900">
+                    <p>ようこそ、{{ Auth::user()->name }}さん！</p>
+                    <a href="{{ route('logout') }}" class="text-blue-500">ログアウト</a>
+                </div>
             </div>
         </div>
     </div>
