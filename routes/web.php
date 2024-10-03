@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 
 
 
@@ -25,6 +26,12 @@ Route::get('/home', function () {
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/login', [CustomAuthenticatedSessionController::class, 'store'])
+    ->name('login');
+
+Route::get('/login', [CustomAuthenticatedSessionController::class, 'create'])
+    ->name('login.form');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
