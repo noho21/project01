@@ -19,7 +19,7 @@ class ProductController extends Controller
         $product_name = $request -> input('product_name', '');
         $company_id = $request -> input('company_id', '');
 
-        $products = Product::join('companies', 'products.company_id', '=', 'companies.id')
+        $products = Product::join('companies', 'products.company_id', '=', 'companies_id')
         -> select('products.*', 'companies.name as company_name') 
         -> where('product_name', 'like', "%$product_name%")
         -> where('company_id', '=', $company_id)
@@ -53,7 +53,7 @@ class ProductController extends Controller
             $filename = $uploadedfile -> getClientOriginalName();
             
             $product = Product::createProduct($product_name,$price,$stock,$comment,$company_id,$filename);
-            if($uploadedfile) {
+            if ($uploadedfile) {
                 $filename = $uploadedfile -> getClientOriginalName();
             } else {
                 $filename = "";
@@ -75,7 +75,7 @@ class ProductController extends Controller
                 "filename" => $filename,
             ]);
 
-            if($uploadedfile){
+            if ($uploadedfile) {
                 $uploadedfile -> storeAs('', $product -> id);
             }
             DB::commit();
@@ -129,7 +129,7 @@ class ProductController extends Controller
             Log::debug('[ProductController][update] input => [$id, $product_name, $price, $stock, $comment]');
             Product::updateProduct($id, $product_name, $price, $stock, $comment, $company_id, $filename);
 
-            if($uploadedfile){
+            if ($uploadedfile) {
                 $uploadedfile -> storeAs('', $id);
             }
 

@@ -38,7 +38,7 @@ class Product extends Model
     /* 編集処理 */
     public static function updatedProduct($id, $product_name, $price, $stock, $comment, $company_id, $filename){
         $product = self::find($id);
-        if($product) {
+        if ($product) {
             $product -> update([
                 "id" => $id,
                 "product_name" => $product_name,
