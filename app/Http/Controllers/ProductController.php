@@ -19,9 +19,8 @@ class ProductController extends Controller
         $product_name = $request -> input('product_name', '');
         $company_id = $request -> input('company_id', '');
 
-        $products = Product::join('companies', 'products.company_id', '=', 'companies_id')
-        -> select('products.*', 'companies.name as company_name') 
-        -> where('product_name', 'like', "%$product_name%")
+        $products = Product::with('company')
+        -> where('product_name', 'like', '%' . $product_name . '%')
         -> where('company_id', '=', $company_id)
         -> paginate(2);
 
