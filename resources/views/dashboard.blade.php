@@ -13,7 +13,10 @@
                 </div>
                 <div class="p-6 text-gray-900">
                     <p>ようこそ、{{ Auth::user()->name }}さん！</p>
-                    <a href="{{ route('logout') }}" class="text-blue-500">ログアウト</a>
+                    <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                        @csrf
+                        <button type="submit" class="text-blue-500">ログアウト</button>
+                    </form>
                 </div>
             </div>
         </div>
