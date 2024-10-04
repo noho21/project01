@@ -19,13 +19,13 @@ use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 |
 */
 
+/*Route::get('/', function () {
+    return view('welcome');
+});*/
+
 Route::get('/home', function () {
     return view('home'); 
 }) -> middleware(['auth']) -> name('home');
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::post('/login', [CustomAuthenticatedSessionController::class, 'store'])
     ->name('login');
@@ -44,10 +44,6 @@ Route::middleware('auth') -> group(function () {
 });
 
 require __DIR__.'/auth.php';
-
-
-
-Auth::routes();
 
 Route::get('/product', [App\Http\Controllers\ProductController::class, 'index']) -> name('product.index');
 
