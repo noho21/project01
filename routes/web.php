@@ -19,9 +19,9 @@ use App\Http\Controllers\Auth\CustomAuthenticatedSessionController;
 |
 */
 
-/*Route::get('/', function () {
+Route::get('/', function () {
     return view('welcome');
-});*/
+});
 
 Route::get('/home', function () {
     return view('home'); 
@@ -31,7 +31,7 @@ Route::post('/login', [CustomAuthenticatedSessionController::class, 'store'])
     ->name('login');
 
 Route::get('/login', [CustomAuthenticatedSessionController::class, 'create'])
-    ->name('login.form');
+    ->name('login');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
