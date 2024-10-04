@@ -34,7 +34,7 @@ Route::get('/login', [CustomAuthenticatedSessionController::class, 'create'])
     ->name('login.form');
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('/product');
 }) -> middleware(['auth', 'verified']) -> name('dashboard');
 
 Route::middleware('auth') -> group(function () {
