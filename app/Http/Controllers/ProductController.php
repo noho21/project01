@@ -33,9 +33,7 @@ class ProductController extends Controller
     /* 新規作成ページ */
     public function new(Request $request) {
         $companies = Company::all();
-        return view('product.new',[
-            'companies' => $companies,
-        ]);
+        return view('product.new', compact('companies'));
     }
 
     /* 新規追加処理 */
@@ -43,27 +41,22 @@ class ProductController extends Controller
         DB::beginTransaction();
         try{
             Log::debug('[ProductController][create]');
-            $product_name = $request -> input("product_name");
-            $price = $request -> input("price");
-            $stock = $request -> input("stock");
-            $comment = $request -> input("comment");
-            $company_id = $request -> input("company_id");
-            $uploadedfile = $request -> file('file');
-            $filename = $uploadedfile -> getClientOriginalName();
-            
-            $product = Product::createProduct($product_name,$price,$stock,$comment,$company_id,$filename);
-            if ($uploadedfile) {
-                $filename = $uploadedfile -> getClientOriginalName();
-            } else {
-                $filename = "";
-            }
 
             $validated = $request->validated();
             $product_name = $validated['product_name'];
             $price = $validated['price'];
             $stock = $validated['stock'];
             $comment = $validated['comment'];
+            $company_id = $request -> input("company_id");
 
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                $filename = $file->getClientOriginalName();
+                $path = $file->storeAs('public/images', $filename); 
+            } else {
+                $filename = "";
+            }
+            
             Log::debug('[ProductController][create]input => ', [$product_name, $price, $stock, $comment, $filename]);
             $product = Product::create([ 
                 "product_name" => $product_name,
@@ -74,9 +67,6 @@ class ProductController extends Controller
                 "filename" => $filename,
             ]);
 
-            if ($uploadedfile) {
-                $uploadedfile -> storeAs('', $product -> id);
-            }
             DB::commit();
         }catch(\Exception $e){
             DB::rollBack();
@@ -85,6 +75,12 @@ class ProductController extends Controller
         return redirect() -> route('product.new');
     }
 
+    /* 商品作成画面表示 */
+    public function showCreateForm() {
+        $companies = Company::all();
+        return view('products.create', compact('companies'));
+    }
+    
     /* 詳細ページ */
     public function show(Request $request, $id) {
         Log::debug('[ProductController][show]');

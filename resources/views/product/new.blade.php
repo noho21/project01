@@ -36,6 +36,11 @@
                 @if ($errors -> has('comment'))
                     <li>{{ $errors -> first('comment') }}</li>
                 @endif
+
+                @if(empty($companies))
+                    <li>会社情報が取得できません</li>
+                @endif
+
             </ul>
 
             <a href="{{ route('product.index') }}">戻る</a>
