@@ -75,12 +75,30 @@ class ProductController extends Controller
         return redirect() -> route('product.new');
     }
 
-    /* 商品作成画面表示 */
+    /* メーカー情報画面表示 */
     public function showCreateForm() {
         $companies = Company::all();
-        return view('products.create', compact('companies'));
+        return view('product.create', compact('companies'));
     }
-    
+
+    /* メーカー情報登録画面 */
+    public function showCompanyForm() {
+        return view('companies.create');
+    }
+
+    /* メーカー情報登録処理 */
+    public function storeCompany(Request $request) {
+        $validated = $request -> validate([
+            'company_name' => 'required|string|max:255',
+            'street_address' => 'required|string|max:255',
+            'representative_name' => 'required|string|max:255',
+        ]);
+
+        Company::create($validated);
+
+        return redirect() -> route('company.create') -> with('success', 'メーカー情報が登録されました。');
+    }
+
     /* 詳細ページ */
     public function show(Request $request, $id) {
         Log::debug('[ProductController][show]');

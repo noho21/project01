@@ -50,11 +50,17 @@ Route::get('/product', [ProductController::class, 'index']) -> name('product.ind
 /* 新規作成ページ */
 Route::get('/product/new', [ProductController::class, 'new']) -> name('product.new');
 
-/* 商品作成画面表示 */
-Route::get('/products/create', [ProductController::class, 'showCreateForm']) -> name('product.new');
+/* メーカー情報画面表示 */
+Route::get('/product/create', [ProductController::class, 'showCreateForm']) -> name('product.create');
 
 /* 新規追加処理 */
-Route::post('/product/create', [ProductController::class, 'create']) -> name('product.create');
+Route::post('/product/create', [ProductController::class, 'create']) -> name('product.store');
+
+/* メーカー情報登録画面表示 */
+Route::get('/companies/create', [ProductController::class, 'showCompanyForm'])->name('company.create');
+
+/* メーカー情報の保存処理 */
+Route::post('/companies', [ProductController::class, 'storeComapny'])->name('company.store');
 
 /* 詳細ページ */
 Route::get('/product/show/{id}', [ProductController::class, 'show']) -> name('product.show');
