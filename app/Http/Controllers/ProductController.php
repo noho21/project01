@@ -86,9 +86,15 @@ class ProductController extends Controller
     /* 詳細ページ */
     public function show(Request $request, $id) {
         Log::debug('[ProductController][show]');
-        Log::debug('[ProductController][show] path => {$id}');
         $product = Product::find($id);
-        return view('product.show', ['product' => $product]);
+        if (!$product) {
+            return redirect() -> route('product.index') -> with('error', '書品が見つかりません。');
+        }
+
+        return view('product.show', [
+            'product' => $product,
+            'product_id' => $id,
+        ]);
     }
 
     /* 編集ページ */
