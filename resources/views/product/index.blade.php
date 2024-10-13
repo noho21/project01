@@ -40,10 +40,10 @@
                             <td>{{ $product -> company -> company_name ?? 'デフォルトの会社名' }}</td>
                             <td>
                                 <a href="{{ route('product.show', ['id' => $product -> id]) }}">詳細</a>
-                                <form action="{{ route('product.delete') }}" method="post">
+                                <form action="{{ route('product.delete', ['id' => $product -> id]) }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $product -> id }}">
-                                    <button type="submit" value="削除">削除</button>
+                                    <button type="submit">削除</button>
                                 </form>
                             </td>
                         </tr>

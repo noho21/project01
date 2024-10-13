@@ -4,7 +4,7 @@
 
         @section('content')
             <h1>商品新規登録画面</h1>
-            <form action="{{ route('product.create') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 商品名: <input type="text" name="product_name"><br/>

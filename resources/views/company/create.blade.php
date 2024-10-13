@@ -21,7 +21,13 @@
                 @endif
             </ul>
 
-            <a href="{{  route('product.index'  }}">戻る</a>
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <a href="{{  route('product.index')  }}">戻る</a>
         @endsection
     </body>
 </html>

@@ -4,7 +4,7 @@
 
         @section('content')
             <h1>商品情報編集画面</h1>
-            <form action="{{ route('product.update') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('product.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="id" value="{{ $product -> id }}">
                 id: {{ $product -> id }}

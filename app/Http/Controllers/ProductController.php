@@ -19,11 +19,7 @@ class ProductController extends Controller
         $product_name = $request -> input('product_name', '');
         $company_id = $request -> input('company_id', '');
 
-        $products = Product::with('company')
-        -> where('product_name', 'like', '%' . $product_name . '%')
-        -> where('company_id', '=', $company_id)
-        -> paginate(2);
-
+        $products = Product::with('company') -> paginate(10); 
         return view ('product.index', [
             'products' => $products,
             'companies' => $companies,
@@ -40,54 +36,42 @@ class ProductController extends Controller
     public function create(ProductCreateRequest $request) {
         DB::beginTransaction();
         try{
-            Log::debug('[ProductController][create]');
+            Log::debug('[ProductController][create] Request data: ', $request->all());
 
             $validated = $request->validated();
-            $product_name = $validated['product_name'];
-            $price = $validated['price'];
-            $stock = $validated['stock'];
-            $comment = $validated['comment'];
             $company_id = $request -> input("company_id");
 
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
-                $filename = $file->getClientOriginalName();
+                $filename = uniqid() . '_' . $file->getClientOriginalName();
                 $path = $file->storeAs('public/images', $filename); 
             } else {
                 $filename = "";
             }
             
-            Log::debug('[ProductController][create]input => ', [$product_name, $price, $stock, $comment, $filename]);
-            $product = Product::create([ 
-                "product_name" => $product_name,
-                "price" => $price,
-                "stock" => $stock,
-                "comment" => $comment,
-                "company_id" => $company_id,
-                "filename" => $filename,
-            ]);
+            Log::debug('[ProductController][create]input => ', $validated);
+            $validated['company_id'] = $company_id;
+            $validated['filename'] = $filename;
+
+            Product::create($validated);
 
             DB::commit();
+            return redirect() -> route('product.index') -> with('success', '商品が正常に登録されました。');
         }catch(\Exception $e){
             DB::rollBack();
+            Log::error('商品作成エラー:' . $e -> getMessage());
             return redirect() -> back() -> with('error', '商品の生成中にエラーが起きました。');
         }
-        return redirect() -> route('product.new');
-    }
-
-    /* メーカー情報画面表示 */
-    public function showCreateForm() {
-        $companies = Company::all();
-        return view('product.create', compact('companies'));
     }
 
     /* メーカー情報登録画面 */
     public function showCompanyForm() {
-        return view('companies.create');
+        return view('company.create');
     }
 
     /* メーカー情報登録処理 */
     public function storeCompany(Request $request) {
+        $this -> authorize('create', Company::class);
         $validated = $request -> validate([
             'company_name' => 'required|string|max:255',
             'street_address' => 'required|string|max:255',
@@ -120,65 +104,71 @@ class ProductController extends Controller
     }
 
     /* 編集処理 */ 
-    public function update(ProductCreateRequest $request) {
+    public function update(ProductCreateRequest $request,  $id) {
         DB::beginTransaction();
         try{
             Log::debug('[ProductController][update]');
-            $id = $request -> input("id");
-            $product_name = $request ->input("product_name");
-            $price = $request -> input("price");
-            $stock = $request -> input("stock");
-            $comment = $request -> input("comment");
-            $company_id = $request -> input("company_id");
-            $uploadedfile = $request -> file('file');
-            $filename = $uploadedfile ? $uploadedfile->getClientOriginalName() : null;
 
             $validated = $request->validated();
-            $product_name = $validated['product_name'];
-            $price = $validated['price'];
-            $stock = $validated['stock'];
-            $comment = $validated['comment'];
-           
-            Log::debug('[ProductController][update] input => [$id, $product_name, $price, $stock, $comment]');
-            Product::updateProduct($id, $product_name, $price, $stock, $comment, $company_id, $filename);
+            $company_id = $request -> input("company_id");
 
-            if ($uploadedfile) {
-                $uploadedfile -> storeAs('', $id);
+            $product = Product::find($id);
+
+            if (!$product) {
+                throw new \Exception("商品が見つかりません: ID " . $id);
             }
 
+            $product -> fill($validated);
+            $product -> company_id = $company_id;
+
+            if ($request -> hasFile('file')) {
+                $file = $request -> file('file');
+                $filename = uniqid() . '_' . $file -> getClientOriginalName();
+                $file -> storeAs('public/images', $filename);
+                $product -> filename = $filename;
+            }
+
+            $product -> save();
+
             DB::commit();
-        }catch(\Exception $e){
+            return redirect() -> route('route.index') -> with('success'. '商品が更新されました。');
+        } catch(\Exception $e){
             DB::rollback();
             return redirect()->back()->with('error','商品の更新中にエラーが発生しました。');
         }
-        return redirect() -> route('product.edit', ['id' => $id]);
     }
 
     /* 削除処理 */
-    public function delete(Request $request) {
-        DB::beginTransaction();
-        try{
-            Log::debug('[ProductController][delete]');
-            $id = $request -> input('id');
-            Log::debug('[ProductController][delete]input => ', [$id]);
-            Product::deleteProduct($id);
-            $product = Product::find($id);
-            $product -> delete();
-            DB::commit();
-        }catch(\Exception $e){
-            DB::rollback();
-            return redirect()->back()->with('error','商品の更新中にエラーが発生しました。');
+    public function delete(Request $request){
+        Log::debug('[ProductController][delete]');
+        $id = $request -> input('id');
+        Log::debug('[ProductController][delete]input=>', [$id]);
+    
+        $product = Product::find($id);
+        if (!$product) {
+            Log::error('商品が見つかりませんでした: ID ' . $id);
+            return redirect() -> route('product.index') -> with('error', '商品が見つかりませんでした');
         }
-        return redirect() -> route("product.index");
+    
+        $product -> delete();
+        Log::debug('商品が削除されました: ID ' . $id);
+        return redirect() -> route("product.index") -> with('success', '商品が削除されました');
     }
 
     /* ファイル処理 */
     public function getfile(Request $request, $id) {
         $product = Product::find($id);
-        $storedfilename = Storage::path('product/', $product -> id);
-        $filename = $product -> name;
-        $mimeType = Storage::mimeType($storedfilename);
-        $headers = ['Content-Type' => $mimeType];
-        return Storage::response($storedfilename, $filename, $headers);
+        
+        if ($product && $product -> filename) {
+            $storedFilename = 'public/images/' . $product -> filename;
+
+            if (Storage::exists($storedFilename)) {
+                $mimeType = Storage::mimeType($storedFilename);
+
+                return Storage::download($storedFilename, $product -> filename, ['Content-Type' => $mimeType]);
+            }
+        }
+
+        return abort(404, 'ファイルが見つかりません。');
     }
 }

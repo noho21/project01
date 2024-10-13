@@ -50,17 +50,15 @@ Route::get('/product', [ProductController::class, 'index']) -> name('product.ind
 /* 新規作成ページ */
 Route::get('/product/new', [ProductController::class, 'new']) -> name('product.new');
 
-/* メーカー情報画面表示 */
-Route::get('/product/create', [ProductController::class, 'showCreateForm']) -> name('product.create');
-
 /* 新規追加処理 */
-Route::post('/product/create', [ProductController::class, 'create']) -> name('product.store');
+Route::post('/product/store', [ProductController::class, 'create']) -> name('product.store');
 
-/* メーカー情報登録画面表示 */
-Route::get('/companies/create', [ProductController::class, 'showCompanyForm'])->name('company.create');
+/* メーカー情報登録画面と登録処理 */
+Route::middleware('auth') -> group(function () {
+    Route::get('/company/create', [ProductController::class, 'showCompanyForm']) -> name('company.create');
+    Route::post('/company', [ProductController::class, 'storeCompany']) -> name('company.store');
+});
 
-/* メーカー情報の保存処理 */
-Route::post('/companies', [ProductController::class, 'storeComapny'])->name('company.store');
 
 /* 詳細ページ */
 Route::get('/product/show/{id}', [ProductController::class, 'show']) -> name('product.show');
@@ -75,4 +73,4 @@ Route::post('/product/update', [ProductController::class, 'update']) -> name('pr
 Route::post('/product/delete', [ProductController::class, 'delete']) -> name('product.delete');
 
 /* ファイル処理 */
-Route::get('/product/getfile/{id}', [ProductController::class, 'getfile']) -> name('product.filename');
+Route::get('/product/getfile/{id}', [ProductController::class, 'getfile']) -> name('product.getfile');
