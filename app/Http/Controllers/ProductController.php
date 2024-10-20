@@ -71,7 +71,6 @@ class ProductController extends Controller
 
     /* メーカー情報登録処理 */
     public function storeCompany(Request $request) {
-        $this -> authorize('create', Company::class);
         $validated = $request -> validate([
             'company_name' => 'required|string|max:255',
             'street_address' => 'required|string|max:255',

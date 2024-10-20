@@ -54,11 +54,8 @@ Route::get('/product/new', [ProductController::class, 'new']) -> name('product.n
 Route::post('/product/store', [ProductController::class, 'create']) -> name('product.store');
 
 /* メーカー情報登録画面と登録処理 */
-Route::middleware('auth') -> group(function () {
-    Route::get('/company/create', [ProductController::class, 'showCompanyForm']) -> name('company.create');
-    Route::post('/company', [ProductController::class, 'storeCompany']) -> name('company.store');
-});
-
+Route::get('/company/create', [ProductController::class, 'showCompanyForm']) -> name('company.create');
+Route::post('/company', [ProductController::class, 'storeCompany']) -> name('company.store');
 
 /* 詳細ページ */
 Route::get('/product/show/{id}', [ProductController::class, 'show']) -> name('product.show');
