@@ -3,12 +3,13 @@
         @extends('product.header')
 
         @section('content')
-            <h1>商品一覧画面</h1>
-            <div>
-                <form method="GET" action="{{ route('product.index') }}">
+            <h3>商品一覧画面</h3>
+
+            <div class="container">
+                <form class="row justify-content-md-center" method="GET" action="{{ route('product.index') }}">
                     @csrf
                     
-                    <input type="text" name="product_name" placeholder="商品名">
+                    <input type="text" name="product_name" placeholder="検索キーワード">
                     <select name="company_id">
                         @foreach ($companies as $company)
                             <option value="{{ $company->id }}">{{ $company->company_name }}</option>
@@ -33,11 +34,18 @@
                     @foreach ($products as $product)
                         <tr>
                             <td>{{ $product -> id }}</td>
-                            <td><img style="height: 100px; width: 100px;" src="{{ route('product.getfile', ['id' => $product -> id]) }}" alt="商品画像"></td>
+                            <td><img style="height: 100px; width: 100px; max-width: 100%; height: auto; object-fit: cover;" src="{{ route('product.getfile', ['id' => $product -> id]) }}" alt="商品画像"></td>
                             <td>{{ $product -> product_name }}</td>
                             <td>{{ $product -> price }}</td>
                             <td>{{ $product -> stock }}</td>
-                            <td>{{ $product -> company -> company_name ?? 'デフォルトの会社名' }}</td>
+                            <td>
+                                @if ($product -> company)
+                                    {{ $product -> company -> company_name }}
+                                @else
+                                    デフォルトの会社名
+                                @endif
+                            </td>
+
                             <td>
                                 <a href="{{ route('product.show', ['id' => $product -> id]) }}">詳細</a>
                                 <form action="{{ route('product.delete', ['id' => $product -> id]) }}" method="POST">

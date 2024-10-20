@@ -21,6 +21,8 @@ return new class extends Migration
             $table -> integer('stock');
             $table -> text('comment');
             $table -> timestamps();
+            $table -> unsignedBigInteger('company_id');
+            $table -> foreign('company_id') -> references('id') -> on('companies') -> onDelete('cascade');
         });
     }
 

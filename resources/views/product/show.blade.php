@@ -8,7 +8,7 @@
                 <li>
                     <div>ID: {{ $product -> id }}</div>
                     <div>商品名: {{ $product -> product_name }}</div>
-                    <div>商品画像: <img style="height: 100px; width: 100px;" src="{{ route('product.getfile', ['id' => $product->id]) }}"></div>
+                    <div>商品画像: <img style="height: 100px; width: 100px; max-width: 100%; height: auto; object-fit: cover;" src="{{ route('product.getfile', ['id' => $product->id]) }}"></div>
                     <div>メーカー名: {{ $product -> company->company_name }}</div>
                     <div>価格: {{ $product -> price }}</div>
                     <div>在庫数: {{ $product -> stock }}</div>
