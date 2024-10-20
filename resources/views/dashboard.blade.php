@@ -13,10 +13,12 @@
                 </div>
                 <div class="p-6 text-gray-900">
                     <p>ようこそ、{{ Auth::user()->name }}さん！</p>
+
+                    <a href="{{ route('product.index') }}" class="btn btn-primary btn-lg mt-3 me-3">商品一覧ページ</a>
+
                     <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                         @csrf
-                        <button type="submit" class="text-blue-500">ログアウト</button>
-                        <a href="{{ route('product.index') }}" class="btn btn-primary btn-lg mt-3">商品一覧ページ</a>
+                        <button type="submit" class="btn btn-danger btn-lg mt-3">ログアウト</button>
                     </form>
                 </div>
             </div>
