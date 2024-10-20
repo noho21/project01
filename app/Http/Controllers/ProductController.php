@@ -99,9 +99,10 @@ class ProductController extends Controller
 
     /* 編集ページ */
     public function edit(Request $request, $id) {
+        Log::debug('[ProductController][update] Request received: ', $request->all());
         $companies = Company::all();
         Log::debug('[ProductController][edit]');
-        Log::debug('[ProductController][edit] path => {$id}');
+        Log::debug("[ProductController][edit] path => {$id}");
         $product = Product::find($id);
         return view('product.edit', [
             'product' => $product,
@@ -132,15 +133,17 @@ class ProductController extends Controller
                 $filename = uniqid() . '_' . $file -> getClientOriginalName();
                 $file -> storeAs('public/images', $filename);
                 $product -> filename = $filename;
+            } else {
+                $product->filename = $product->getOriginal('filename');
             }
 
             $product -> save();
 
             DB::commit();
-            return redirect() -> route('route.index') -> with('success'. '商品が更新されました。');
+            return redirect() -> route('product.index') -> with('success', '商品が更新されました。');
         } catch(\Exception $e){
             DB::rollback();
-            return redirect()->back()->with('error','商品の更新中にエラーが発生しました。');
+            return redirect()->back()->with('error', '商品の更新中にエラーが発生しました。');
         }
     }
 

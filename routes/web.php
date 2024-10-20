@@ -67,7 +67,7 @@ Route::get('/product/show/{id}', [ProductController::class, 'show']) -> name('pr
 Route::get('/product/edit/{id}', [ProductController::class, 'edit']) -> name('product.edit');
 
 /* 編集処理 */
-Route::post('/product/update', [ProductController::class, 'update']) -> name('product.update');
+Route::put('/product/update/{id}', [ProductController::class, 'update']) -> name('product.update');
 
 /* 削除処理 */
 Route::post('/product/delete', [ProductController::class, 'delete']) -> name('product.delete');
