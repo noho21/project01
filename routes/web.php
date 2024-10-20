@@ -41,11 +41,12 @@ Route::middleware('auth') -> group(function () {
     Route::get('/profile', [ProfileController::class, 'edit']) -> name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update']) -> name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy']) -> name('profile.destroy');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 });
 
 require __DIR__.'/auth.php';
 
-Route::get('/product', [ProductController::class, 'index']) -> name('product.index');
+Route::get('/products', [ProductController::class, 'index']) -> name('product.index');
 
 /* 新規作成ページ */
 Route::get('/product/new', [ProductController::class, 'new']) -> name('product.new');
@@ -61,7 +62,7 @@ Route::post('/company', [ProductController::class, 'storeCompany']) -> name('com
 Route::get('/product/show/{id}', [ProductController::class, 'show']) -> name('product.show');
 
 /* 編集ページ */
-Route::get('/product/edit/{id}', [ProductController::class, 'edit']) -> name('product.edit');
+Route::get('/product/edit/{id}', [ProductController::class, 'edit']) -> name('product.product');
 
 /* 編集処理 */
 Route::put('/product/update/{id}', [ProductController::class, 'update']) -> name('product.update');

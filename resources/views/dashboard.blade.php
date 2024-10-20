@@ -16,6 +16,7 @@
                     <form method="POST" action="{{ route('logout') }}" style="display: inline;">
                         @csrf
                         <button type="submit" class="text-blue-500">ログアウト</button>
+                        <a href="{{ route('product.index') }}" class="btn btn-primary btn-lg mt-3">商品一覧ページ</a>
                     </form>
                 </div>
             </div>

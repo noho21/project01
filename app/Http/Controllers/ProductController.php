@@ -103,7 +103,7 @@ class ProductController extends Controller
         Log::debug('[ProductController][edit]');
         Log::debug("[ProductController][edit] path => {$id}");
         $product = Product::find($id);
-        return view('product.edit', [
+        return view('product.edit_product', [
             'product' => $product,
             'companies' => $companies,
         ]);
