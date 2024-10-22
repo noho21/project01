@@ -18,11 +18,23 @@ class ProductController extends Controller
         $companies = Company::all();
         $product_name = $request -> input('product_name', '');
         $company_id = $request -> input('company_id', '');
+        $query = Product::with('company');
 
-        $products = Product::with('company') -> paginate(10); 
+        if(!empty($product_name)) {
+            $query -> where('product_name', 'like', '%' . $product_name . '%');
+        }
+
+        if(!empty($sompany_id)) {
+            $query -> where('company_id', $company_id);
+        }
+
+        $products = $query->paginate(5);
+
         return view ('product.index', [
             'products' => $products,
             'companies' => $companies,
+            'product_name' => $product_name,
+            'company_id' => $company_id, 
         ]);
     }
 

@@ -62,7 +62,7 @@ Route::post('/company', [ProductController::class, 'storeCompany']) -> name('com
 Route::get('/product/show/{id}', [ProductController::class, 'show']) -> name('product.show');
 
 /* 編集ページ */
-Route::get('/product/edit/{id}', [ProductController::class, 'edit']) -> name('product.product');
+Route::get('/product/edit/{id}', [ProductController::class, 'edit']) -> name('product.edit');
 
 /* 編集処理 */
 Route::put('/product/update/{id}', [ProductController::class, 'update']) -> name('product.update');

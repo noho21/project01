@@ -1,4 +1,5 @@
-<html>
+<!doctype html>
+<html lang="ja">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -13,14 +14,16 @@
 
             <div class="container">
                 <form class="row justify-content-md-center" method="GET" action="{{ route('product.index') }}">
-                    @csrf
-                    
                     <input class="col col-lg-2 ms-3" type="text" name="product_name" placeholder="検索キーワード">
                     <select class="col col-lg-2 ms-3" name="company_id">
-                        @foreach ($companies as $company)
-                            <option value="{{ $company->id }}">{{ $company->company_name }}</option>
-                        @endforeach
+                            <option value="">全てのメーカー</option>
+                            @foreach ($companies as $company)
+                                <option value="{{ $company -> id }}" {{ request('company_id') == $company -> id ? 'selected' : '' }}>
+                                    {{ $company -> company_name }}
+                                </option>
+                            @endforeach
                     </select>
+                    
                     <input class="col col-lg-2 ms-3"type="submit" value="検索">
                 </form>
             </div>
@@ -34,10 +37,8 @@
                         <th class="col col-lg-2">価格</th>
                         <th class="col col-lg-1">在庫数</th>
                         <th class="col col-lg-2">メーカー名</th>
-                        <th class="col col-lg-2">
-                            <div class="d-flex justify-content-start">
+                        <th class="col col-lg-2 d-flex justify-content-start">
                                 <a class="btn btn-primary" href="{{ route('product.new') }}">新規登録</a>
-                            </div>
                         </th>
                     </div>
                 </tr>
@@ -90,6 +91,7 @@
 
         @endsection
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    </body>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+     </body>
 </html>
