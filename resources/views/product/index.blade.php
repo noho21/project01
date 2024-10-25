@@ -10,84 +10,86 @@
         @extends('product.header')
 
         @section('content')
-            <h3>商品一覧画面</h3>
 
-            <div class="container">
-                <form class="row justify-content-md-center" method="GET" action="{{ route('product.index') }}">
-                    <input class="col col-lg-2 ms-3" type="text" name="product_name" placeholder="検索キーワード">
-                    <select class="col col-lg-2 ms-3" name="company_id">
-                            <option value="">全てのメーカー</option>
-                            @foreach ($companies as $company)
-                                <option value="{{ $company -> id }}" {{ request('company_id') == $company -> id ? 'selected' : '' }}>
-                                    {{ $company -> company_name }}
-                                </option>
-                            @endforeach
-                    </select>
-                    
-                    <input class="col col-lg-2 ms-3"type="submit" value="検索">
-                </form>
-            </div>
+            <h3 class="title">商品一覧画面</h3>
 
-            <table class="products_table m-auto mt-5 w-50">
-                <thead class="container text-center m-0 border-top border-end border-start border-dark">
-                    <tr class="border-bottom border-dark row  justify-content-md-center">
-                        <th class="col col-lg-1">ID</th>
-                        <th class="col col-lg-1">商品画像</th>
-                        <th class="col col-lg-2">商品名</th>
-                        <th class="col col-lg-2">価格</th>
-                        <th class="col col-lg-1">在庫数</th>
-                        <th class="col col-lg-2">メーカー名</th>
-                        <th class="col col-lg-2 d-flex justify-content-start">
-                                <a class="btn btn-primary" href="{{ route('product.new') }}">新規登録</a>
-                        </th>
+                <div class="container">
+               
+                
+                    <form class="row justify-content-md-center" method="GET" action="{{ route('product.index') }}">
+                        <input class="col-lg-3 me-3" type="text" name="product_name" placeholder="検索キーワード">
+                        <select class="col-lg-3 me-3" name="company_id">
+                                <option value="">全てのメーカー</option>
+                                @foreach ($companies as $company)
+                                    <option value="{{ $company -> id }}" {{ request('company_id') == $company -> id ? 'selected' : '' }}>
+                                        {{ $company -> company_name }}
+                                    </option>
+                                @endforeach
+                        </select>
+                        
+                        <input class="col-lg-1 btn btn-light" type="submit" value="検索">
+                    </form>
+                </div>
+
+                <table class="table table-striped table-bordered w-50 mt-5 m-auto text-center align-middle">
+                    <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>商品画像</th>
+                                <th>商品名</th>
+                                <th>価格</th>
+                                <th>在庫数</th>
+                                <th>メーカー名</th>
+                                <th>
+                                    <a class="btn btn-primary" href="{{ route('product.new') }}">新規登録</a>
+                                </th>
+                            </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($products as $product)
+                            <tr>
+                                <td>{{ $product -> id }}</td>
+                                <td>
+                                    <img class="rounded-3" style="height: 100px; width: 100px; object-fit: cover;" src="{{ asset('storage/images/' . $product->filename) }}" alt="商品画像">
+                                </td>
+                                <td>{{ $product -> product_name }}</td>
+                                <td>{{ $product -> price }}</td>
+                                <td>{{ $product -> stock }}</td>
+                                <td>
+                                    @if ($product -> company)
+                                        {{ $product -> company -> company_name }}
+                                    @else
+                                        デフォルトの会社名
+                                    @endif
+                                </td>
+                                <td>
+                                    <a class="btn btn-info" href="{{ route('product.show', ['id' => $product -> id]) }}">詳細</a>
+                                    <form action="{{ route('product.delete', ['id' => $product -> id]) }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $product -> id }}">
+                                        <button class="btn btn-danger" type="submit">削除</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <div>
+                    {{ $products -> links('vendor.pagination.bootstrap-4') }}
+                </div>
+                <hr>
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
                     </div>
-                </tr>
-            </thead>
-                <tbody>
-                    @foreach ($products as $product)
-                        <tr class="row justify-content-md-center border-bottom border-dark">
-                            <td class="col col-lg-1 mb-2 mt-2">{{ $product -> id }}</td>
-                            <td class="col col-lg-1 mb-2 mt-2">
-                                <img class="rounded-3" style="height: 100px; width: 100px; object-fit: cover;" src="{{ asset('storage/images/' . $product->filename) }}" alt="商品画像">
-                            </td>
-                            <td class="col col-lg-2 mb-2 mt-2">{{ $product -> product_name }}</td>
-                            <td class="col col-lg-2 mb-2 mt-2">{{ $product -> price }}</td>
-                            <td class="col col-lg-1 mb-2 mt-2">{{ $product -> stock }}</td>
-                            <td class="col col-lg-2 mb-2 mt-2">
-                                @if ($product -> company)
-                                    {{ $product -> company -> company_name }}
-                                @else
-                                    デフォルトの会社名
-                                @endif
-                            </td>
+                @endif
 
-                            <td class="col col-lg-2 d-flex gap-2 d-md-block">
-                                <a class="btn btn-warning mt-3 ps-4 pe-4" href="{{ route('product.show', ['id' => $product -> id]) }}">詳細</a>
-                                <form action="{{ route('product.delete', ['id' => $product -> id]) }}" method="POST">
-                                    @csrf
-                                    <input type="hidden" name="id" value="{{ $product -> id }}">
-                                    <button class=" btn btn-danger mt-3 ps-4 pe-4" type="submit">削除</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <div>
-                {{ $products -> links('vendor.pagination.bootstrap-4') }}
-            </div>
-            <hr>
-            @if (session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if (session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-            @endif
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
 
         @endsection
 
