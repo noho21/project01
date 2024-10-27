@@ -12,10 +12,8 @@
 
         @section('content')
 
-            <h3 class="title">商品一覧画面</h3>
-
+            <h3 class="title m-auto">商品一覧画面</h3>
                 <div class="container">
-               
                 
                     <form class="row justify-content-md-center" method="GET" action="{{ route('product.index') }}">
                         <input class="col-lg-3 me-3" type="text" name="product_name" placeholder="検索キーワード">
@@ -32,50 +30,53 @@
                     </form>
                 </div>
 
-                <table class="table table-striped table-bordered w-50 mt-5 m-auto text-center align-middle">
-                    <thead class="table-dark">
-                            <tr>
-                                <th>ID</th>
-                                <th>商品画像</th>
-                                <th>商品名</th>
-                                <th>価格</th>
-                                <th>在庫数</th>
-                                <th>メーカー名</th>
-                                <th>
-                                    <a class="btn btn-primary" href="{{ route('product.new') }}">新規登録</a>
-                                </th>
-                            </tr>
+                <table class="table table-striped w-50 m-auto text-center">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>商品画像</th>
+                            <th>商品名</th>
+                            <th>価格</th>
+                            <th>在庫数</th>
+                            <th>メーカー名</th>
+                            <th>
+                                <a class="btn btn-primary" href="{{ route('product.new') }}">新規登録</a>
+                            </th>
+                        </tr>
                     </thead>
-
                     <tbody>
                         @foreach ($products as $product)
-                            <tr>
-                                <td>{{ $product -> id }}</td>
-                                <td>
-                                    <img class="rounded-3" style="height: 100px; width: 100px; object-fit: cover;" src="{{ asset('storage/images/' . $product->filename) }}" alt="商品画像">
-                                </td>
-                                <td>{{ $product -> product_name }}</td>
-                                <td>{{ $product -> price }}</td>
-                                <td>{{ $product -> stock }}</td>
-                                <td>
-                                    @if ($product -> company)
-                                        {{ $product -> company -> company_name }}
-                                    @else
-                                        デフォルトの会社名
-                                    @endif
-                                </td>
-                                <td>
-                                    <a class="btn btn-info" href="{{ route('product.show', ['id' => $product -> id]) }}">詳細</a>
+                        <tr>
+                            <td>{{ $product -> id }}</td>
+                            <td>
+                                <img class="rounded-3" style="height: 150px; width: 150px; object-fit: cover;" src="{{ asset('storage/images/' . $product->filename) }}" alt="商品画像">
+                            </td>
+                            <td>{{ $product -> product_name }}</td>
+                            <td>{{ $product -> price }}</td>
+                            <td>{{ $product -> stock }}</td>
+                            <td>
+                                @if ($product -> company)
+                                    {{ $product -> company -> company_name }}
+                                @else
+                                    デフォルトの会社名
+                                @endif
+                            </td>
+                            <td>
+                                <div class="button-group">
+                                    <a class="btn btn-info detail-btn me-2" href="{{ route('product.show', ['id' => $product -> id]) }}">詳細</a>
+                        
                                     <form action="{{ route('product.delete', ['id' => $product -> id]) }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $product -> id }}">
-                                        <button class="btn btn-danger" type="submit">削除</button>
+                                        <button class="btn btn-danger detail-btn" type="submit">削除</button>
                                     </form>
-                                </td>
-                            </tr>
-                        @endforeach
+                                </div>
+                            </td>
+                        </tr>
+                            @endforeach
                     </tbody>
                 </table>
+               
                 <div>
                     {{ $products -> links('vendor.pagination.bootstrap-4') }}
                 </div>
