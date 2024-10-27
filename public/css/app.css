@@ -940,6 +940,10 @@ select {
   margin-top: 2rem;
 }
 
+.ml-5 {
+  margin-left: 1.25rem;
+}
+
 .block {
   display: block;
 }
@@ -1392,10 +1396,6 @@ select {
   text-align: center;
 }
 
-.text-start {
-  text-align: start;
-}
-
 .align-baseline {
   vertical-align: baseline;
 }
@@ -1652,6 +1652,24 @@ select {
 .table td, .table th {
   vertical-align: middle !important;
   padding: 10px !important;
+}
+
+.image-container {
+  height: 150px;
+  width: 150px;
+}
+
+.image-container img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+.btn-custom-orange {
+  background-color: orange !important;
+  color: black !important;
 }
 
 .hover\:border-gray-300:hover {

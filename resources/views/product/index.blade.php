@@ -27,7 +27,7 @@
                                     @endforeach
                             </select>
                             
-                            <input class="col-lg-1 btn btn-light" type="submit" value="検索">
+                            <input class="col-lg-1 btn btn-secondary" type="submit" value="検索">
                         </form>
                 </div>
 
@@ -41,7 +41,7 @@
                             <th>在庫数</th>
                             <th>メーカー名</th>
                             <th>
-                                <a class="btn btn-primary" href="{{ route('product.new') }}">新規登録</a>
+                                <a class="btn btn-custom-orange" href="{{ route('product.new') }}">新規登録</a>
                             </th>
                         </tr>
                     </thead>
@@ -50,7 +50,7 @@
                         <tr>
                             <td>{{ $product -> id }}</td>
                             <td>
-                                <img class="rounded-3 m-auto" style="height: 150px; width: 150px; object-fit: cover;" src="{{ asset('storage/images/' . $product->filename) }}" alt="商品画像">
+                                <img class="image-container m-auto" src="{{ asset('storage/images/' . $product->filename) }}" alt="商品画像">
                             </td>
                             <td>{{ $product -> product_name }}</td>
                             <td>{{ $product -> price }}</td>
