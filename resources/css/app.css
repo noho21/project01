@@ -29,3 +29,7 @@
     background-color: orange !important;
     color: black !important;
 }
+
+.required {
+    color: red; /* アスタリスクの色を赤に設定 */
+}

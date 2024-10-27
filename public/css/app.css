@@ -908,6 +908,10 @@ select {
   margin-left: 1rem;
 }
 
+.ml-5 {
+  margin-left: 1.25rem;
+}
+
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -938,10 +942,6 @@ select {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.ml-5 {
-  margin-left: 1.25rem;
 }
 
 .block {
@@ -1670,6 +1670,11 @@ select {
 .btn-custom-orange {
   background-color: orange !important;
   color: black !important;
+}
+
+.required {
+  color: red;
+  /* アスタリスクの色を赤に設定 */
 }
 
 .hover\:border-gray-300:hover {
