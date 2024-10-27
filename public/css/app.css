@@ -880,6 +880,10 @@ select {
   margin-bottom: 1.5rem;
 }
 
+.me-2 {
+  margin-inline-end: 0.5rem;
+}
+
 .me-3 {
   margin-inline-end: 0.75rem;
 }
@@ -934,14 +938,6 @@ select {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.ms-auto {
-  margin-inline-start: auto;
-}
-
-.me-2 {
-  margin-inline-end: 0.5rem;
 }
 
 .block {
@@ -1404,10 +1400,6 @@ select {
   vertical-align: baseline;
 }
 
-.align-middle {
-  vertical-align: middle;
-}
-
 .font-sans {
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
@@ -1649,6 +1641,17 @@ select {
 
 .ease-out {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+}
+
+.button-group {
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+}
+
+.table td, .table th {
+  vertical-align: middle !important;
+  padding: 10px !important;
 }
 
 .hover\:border-gray-300:hover {
@@ -2007,15 +2010,4 @@ select {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
   }
-}
-
-.button-group {
-  display: flex;
-  align-items: center; /* 上下中央揃え */
-  gap: 5px; /* ボタン間のスペース */
-}
-
-.table td, .table th {
-  vertical-align: middle;
-  padding: 10px; /* セル内の余白 */
 }

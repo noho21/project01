@@ -12,25 +12,26 @@
 
         @section('content')
 
-            <h3 class="title m-auto">商品一覧画面</h3>
+            
                 <div class="container">
-                
-                    <form class="row justify-content-md-center" method="GET" action="{{ route('product.index') }}">
-                        <input class="col-lg-3 me-3" type="text" name="product_name" placeholder="検索キーワード">
-                        <select class="col-lg-3 me-3" name="company_id">
-                                <option value="">全てのメーカー</option>
-                                @foreach ($companies as $company)
-                                    <option value="{{ $company -> id }}" {{ request('company_id') == $company -> id ? 'selected' : '' }}>
-                                        {{ $company -> company_name }}
-                                    </option>
-                                @endforeach
-                        </select>
-                        
-                        <input class="col-lg-1 btn btn-light" type="submit" value="検索">
-                    </form>
+                    <h3 class="title">商品一覧画面</h3>
+
+                        <form class="row justify-content-md-center" method="GET" action="{{ route('product.index') }}">
+                            <input class="col-lg-3 me-3" type="text" name="product_name" placeholder="検索キーワード">
+                            <select class="col-lg-3 me-3" name="company_id">
+                                    <option value="">全てのメーカー</option>
+                                    @foreach ($companies as $company)
+                                        <option value="{{ $company -> id }}" {{ request('company_id') == $company -> id ? 'selected' : '' }}>
+                                            {{ $company -> company_name }}
+                                        </option>
+                                    @endforeach
+                            </select>
+                            
+                            <input class="col-lg-1 btn btn-light" type="submit" value="検索">
+                        </form>
                 </div>
 
-                <table class="table table-striped w-50 m-auto text-center">
+                <table class="table table-striped w-50 mt-5 m-auto border text-center">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -49,7 +50,7 @@
                         <tr>
                             <td>{{ $product -> id }}</td>
                             <td>
-                                <img class="rounded-3" style="height: 150px; width: 150px; object-fit: cover;" src="{{ asset('storage/images/' . $product->filename) }}" alt="商品画像">
+                                <img class="rounded-3 m-auto" style="height: 150px; width: 150px; object-fit: cover;" src="{{ asset('storage/images/' . $product->filename) }}" alt="商品画像">
                             </td>
                             <td>{{ $product -> product_name }}</td>
                             <td>{{ $product -> price }}</td>
@@ -63,7 +64,7 @@
                             </td>
                             <td>
                                 <div class="button-group">
-                                    <a class="btn btn-info detail-btn me-2" href="{{ route('product.show', ['id' => $product -> id]) }}">詳細</a>
+                                    <a class="btn btn-info detail-btn me-2 " href="{{ route('product.show', ['id' => $product -> id]) }}">詳細</a>
                         
                                     <form action="{{ route('product.delete', ['id' => $product -> id]) }}" method="POST">
                                         @csrf
