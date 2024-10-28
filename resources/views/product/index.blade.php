@@ -4,7 +4,6 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>一覧</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
         @vite('resources/css/app.css')
     </head>
     <body>
@@ -13,12 +12,12 @@
         @section('content')
 
             
-                <div class="container">
-                    <h3 class="title">商品一覧画面</h3>
+                <div>
+                    <h3>商品一覧画面</h3>
 
-                        <form class="row justify-content-md-center" method="GET" action="{{ route('product.index') }}">
-                            <input class="col-lg-3 me-3" type="text" name="product_name" placeholder="検索キーワード">
-                            <select class="col-lg-3 me-3" name="company_id">
+                        <form method="GET" action="{{ route('product.index') }}">
+                            <input type="text" name="product_name" placeholder="検索キーワード">
+                            <select name="company_id">
                                     <option value="">全てのメーカー</option>
                                     @foreach ($companies as $company)
                                         <option value="{{ $company -> id }}" {{ request('company_id') == $company -> id ? 'selected' : '' }}>
@@ -27,11 +26,11 @@
                                     @endforeach
                             </select>
                             
-                            <input class="col-lg-1 btn btn-secondary" type="submit" value="検索">
+                            <input type="submit" value="検索">
                         </form>
                 </div>
 
-                <table class="table table-striped w-50 h-75 mt-5 m-auto border text-center">
+                <table>
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -41,7 +40,7 @@
                             <th>在庫数</th>
                             <th>メーカー名</th>
                             <th>
-                                <a class="btn btn-custom-orange" href="{{ route('product.new') }}">新規登録</a>
+                                <a href="{{ route('product.new') }}">新規登録</a>
                             </th>
                         </tr>
                     </thead>
@@ -50,7 +49,7 @@
                         <tr>
                             <td>{{ $product -> id }}</td>
                             <td>
-                                <img class="image-container m-auto" src="{{ asset('storage/images/' . $product->filename) }}" alt="商品画像">
+                                <img src="{{ asset('storage/images/' . $product->filename) }}" alt="商品画像">
                             </td>
                             <td>{{ $product -> product_name }}</td>
                             <td>{{ $product -> price }}</td>
@@ -64,12 +63,12 @@
                             </td>
                             <td>
                                 <div class="button-group">
-                                    <a class="btn btn-info detail-btn me-2 " href="{{ route('product.show', ['id' => $product -> id]) }}">詳細</a>
+                                    <a href="{{ route('product.show', ['id' => $product -> id]) }}">詳細</a>
                         
                                     <form action="{{ route('product.delete', ['id' => $product -> id]) }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $product -> id }}">
-                                        <button class="btn btn-danger detail-btn" type="submit">削除</button>
+                                        <button type="submit">削除</button>
                                     </form>
                                 </div>
                             </td>
@@ -95,8 +94,5 @@
                 @endif
 
         @endsection
-
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
      </body>
 </html>
