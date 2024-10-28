@@ -31,7 +31,7 @@
                         </form>
                 </div>
 
-                <table class="table table-striped w-50 mt-5 m-auto border text-center">
+                <table class="table table-striped w-50 h-75 mt-5 m-auto border text-center">
                     <thead>
                         <tr>
                             <th>ID</th>

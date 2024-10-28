@@ -835,6 +835,10 @@ select {
   z-index: 50;
 }
 
+.float-start {
+  float: inline-start;
+}
+
 .m-0 {
   margin: 0px;
 }
@@ -1655,8 +1659,8 @@ select {
 }
 
 .image-container {
-  height: 150px;
-  width: 150px;
+  height: 100px;
+  width: 100px;
 }
 
 .image-container img {
@@ -1675,6 +1679,13 @@ select {
 .required {
   color: red;
   /* アスタリスクの色を赤に設定 */
+}
+
+.title {
+  text-align: left;
+  /* 左寄せ */
+  margin-left: 165px;
+  /* 左側のマージンを調整 */
 }
 
 .hover\:border-gray-300:hover {
