@@ -1,36 +1,3 @@
-.button-group {
-    display: flex !important;
-    align-items: center !important;
-    gap: 5px !important;
-}
-
-.table td, .table th {
-    vertical-align: middle !important;
-    padding: 10px !important;
-}
-
-.image-container {
-    height: 100px;
-    width: 100px;
-}
-
-.image-container img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 0.25rem;
-}
-
-.btn-custom-orange {
-    background-color: orange !important;
-    color: black !important;
-}
-
-.required {
-    color: red; /* アスタリスクの色を赤に設定 */
-}
-
-.title {
-    text-align: left; /* 左寄せ */
-    margin-left: 165px; /* 左側のマージンを調整 */
-}
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
