@@ -9,6 +9,7 @@ use App\Models\Company;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\ProductCreateRequest;
+use Illuminate\Pagination\Paginator;
 
 
 class ProductController extends Controller
