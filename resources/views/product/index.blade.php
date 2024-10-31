@@ -61,13 +61,13 @@
                                 @endif
                             </td>
                             <td>
-                                <div class="button-group">
+                                <div class="button-group flex flex-row space-x-2">
                                     <a class="no-underline py-2 px-3 bg-blue-500 rounded-md text-white" href="{{ route('product.show', ['id' => $product -> id]) }}">詳細</a>
                         
                                     <form action="{{ route('product.delete', ['id' => $product -> id]) }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $product -> id }}">
-                                        <button class="py-2 px-3 bg-red-500 rounded-md text-white type="submit">削除</button>
+                                        <button class="py-2 px-3 bg-red-500 rounded-md text-white" type="submit">削除</button>
                                     </form>
                                 </div>
                             </td>
