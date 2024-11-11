@@ -24,10 +24,11 @@ class ProductCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_name' => 'required|max:10',
-            'price' => 'required|integer',
-            'stock' => 'required|integer',
-            'comment' => 'required|max:30',
+            'product_name' => 'required|string|max:10',
+            'price' => 'required|integer|min:0',
+            'stock' => 'required|integer|min:0',
+            'comment' => 'required|string|max:30',
+            'img_path' => 'nullable|string',
         ];
     }
 
@@ -38,8 +39,10 @@ class ProductCreateRequest extends FormRequest
             'product_name.max' => '商品名は10文字以内で入力して下さい',
             'price.required' => '価格を入力して下さい',
             'price.integer' => '数字で入力して下さい',
+            'price.min' => '価格は0以上で入力してください。',
             'stock.required' => '在庫数を入力して下さい',
             'stock.integer' => '数字で入力して下さい',
+            'stock.min' => '在庫数は0以上で入力してください。',
             'comment.required' => 'コメントを入力して下さい',
             'comment.max' => 'コメントは30文字以内で入力して下さい',
         ];

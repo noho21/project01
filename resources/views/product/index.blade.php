@@ -47,7 +47,7 @@
                 <tr class="border-2 h-40 text-center">
                     <td>{{$product->id}}</td>
                     <td>
-                        <img src="{{'storage/images/' . $product->filename ?? ''}}" alt="商品画像">
+                        <img src="{{'storage/images/' . $product->img_path ?? ''}}" alt="商品画像">
                     </td>
                     <td>{{$product->product_name}}</td>
                     <td>{{$product->price}}</td>
