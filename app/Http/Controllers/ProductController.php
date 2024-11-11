@@ -51,10 +51,10 @@ class ProductController extends Controller
 
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
-                $filename = uniqid() . '_' . $file->getClientOriginalName();
-                $path = $file->storeAs('public/images', $filename); 
+                $img_path = uniqid() . '_' . $file->getClientOriginalName();
+                $path = $file->storeAs('public/images', $img_path); 
             } else {
-                $validated['filename'] = "";
+                $validated['img_path'] = "";
             }
             
             $validated['company_id'] = $company_id;
@@ -133,11 +133,11 @@ class ProductController extends Controller
 
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
-                $filename = uniqid() . '_' . $file->getClientOriginalName();
-                $file->storeAs('public/images', $filename);
-                $product->filename = $filename;
+                $img_path = uniqid() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public/images', $img_path);
+                $product->img_path = $img_path;
             } else {
-                $product->filename = $product->getOriginal('filename');
+                $product->img_path = $product->getOriginal('img_path');
             }
 
             $product->save();
@@ -175,13 +175,13 @@ class ProductController extends Controller
     public function getfile(Request $request, $id) {
         $product = Product::find($id);
         
-        if ($product && $product->filename) {
-            $storedFilename = 'public/images/' . $product->filename;
+        if ($product && $product->img_path) {
+            $storedImg_path = 'public/images/' . $product->img_path;
 
-            if (Storage::exists($storedFilename)) {
-                $mimeType = Storage::mimeType($storedFilename);
+            if (Storage::exists($storedImg_path)) {
+                $mimeType = Storage::mimeType($storedImg_path);
 
-                return Storage::download($storedFilename, $product->filename, ['Content-Type' => $mimeType]);
+                return Storage::download($storedImg_path, $product->img_path, ['Content-Type' => $mimeType]);
             }
         }
 

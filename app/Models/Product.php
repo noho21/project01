@@ -16,7 +16,7 @@ class Product extends Model
         "price",
         "stock",
         "comment",
-        "filename",
+        "img_path",
     ];
 
     public function company() {
@@ -24,19 +24,19 @@ class Product extends Model
     }
 
     /* 新規追加処理 */
-    public static function createProduct($product_name, $price, $stock, $comment, $company_id, $filename){
+    public static function createProduct($product_name, $price, $stock, $comment, $company_id, $img_path){
         return self::create([
             "product_name" => $product_name,
             "price" => $price,
             "stock" => $stock,
             "comment" => $comment,
             "company_id" => $company_id,
-            "filename" => $filename,
+            "img_path" => $img_path,
         ]);
     }
 
     /* 編集処理 */
-    public static function updatedProduct($id, $product_name, $price, $stock, $comment, $company_id, $filename){
+    public static function updatedProduct($id, $product_name, $price, $stock, $comment, $company_id, $img_path){
         $product = self::find($id);
         if ($product) {
             $product -> update([
@@ -46,7 +46,7 @@ class Product extends Model
                 "stock" => $stock,
                 "comment" => $comment,
                 "company_id" => $company_id,
-                "filename" => $filename,
+                "img_path" => $img_path,
             ]);
         }
         return $product;   
