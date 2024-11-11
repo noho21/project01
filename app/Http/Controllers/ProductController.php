@@ -52,7 +52,8 @@ class ProductController extends Controller
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
                 $img_path = uniqid() . '_' . $file->getClientOriginalName();
-                $path = $file->storeAs('public/images', $img_path); 
+                $file->storeAs('public/images', $img_path); 
+                $validated['img_path'] = 'storage/images/' . $img_path;
             } else {
                 $validated['img_path'] = "";
             }
@@ -171,7 +172,7 @@ class ProductController extends Controller
         return redirect()->route('product.index')->with('success', '商品が削除されました');
     }
 
-    /* ファイル処理 */
+    /* 商品画像処理 */
     public function getfile(Request $request, $id) {
         $product = Product::find($id);
         
