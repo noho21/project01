@@ -44,8 +44,6 @@ class ProductController extends Controller
     public function create(ProductCreateRequest $request) {
         DB::beginTransaction();
         try{
-            Log::debug('[ProductController][create] Request data: ', $request->all());
-
             $validated = $request->validated();
             $company_id = $request->input("company_id");
 
@@ -59,8 +57,6 @@ class ProductController extends Controller
             }
             
             $validated['company_id'] = $company_id;
-
-            Log::debug('[ProductController][create] Input data for Product creation: ', $validated);
 
             Product::create($validated);
 
@@ -94,7 +90,6 @@ class ProductController extends Controller
 
     /* 詳細ページ */
     public function show(Request $request, $id) {
-        Log::debug('[ProductController][show]');
         $product = Product::findOrFail($id);
 
         return view('product.show', [
@@ -105,9 +100,6 @@ class ProductController extends Controller
 
     /* 編集ページ */
     public function edit(Request $request, $id) {
-        Log::debug('[ProductController][update] Request received: ', $request->all());
-        Log::debug('[ProductController][edit]');
-        Log::debug("[ProductController][edit] path => {$id}");
         $product = Product::find($id);
         $companies = Company::all();
      
@@ -118,8 +110,6 @@ class ProductController extends Controller
     public function update(ProductCreateRequest $request,  $id) {
         DB::beginTransaction();
         try{
-            Log::debug('[ProductController][update]');
-
             $validated = $request->validated();
             $company_id = $request->input("company_id");
 
@@ -154,9 +144,6 @@ class ProductController extends Controller
     /* 削除処理 */
     public function delete(Request $request){
         $id = $request->input('id');
-        Log::debug('[ProductController][delete]');
-        Log::debug('[ProductController][delete]input => ', [$id]);
-    
         $validated = $request->validate([
             'id' => 'required|integer|exists:products,id',
         ]);
@@ -168,7 +155,6 @@ class ProductController extends Controller
         }
     
         $product->delete();
-        Log::debug('商品が削除されました: ID ' . $id);
         return redirect()->route('product.index')->with('success', '商品が削除されました');
     }
 
