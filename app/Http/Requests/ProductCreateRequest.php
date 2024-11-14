@@ -28,7 +28,7 @@ class ProductCreateRequest extends FormRequest
             'price' => 'required|integer|min:0',
             'stock' => 'required|integer|min:0',
             'comment' => 'required|string|max:30',
-            'img_path' => 'nullable|string',
+            'img_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
 
@@ -45,6 +45,9 @@ class ProductCreateRequest extends FormRequest
             'stock.min' => '在庫数は0以上で入力してください。',
             'comment.required' => 'コメントを入力して下さい',
             'comment.max' => 'コメントは30文字以内で入力して下さい',
+            'img_path.image' => '画像ファイルをアップロードしてください。',
+            'img_path.mimes' => 'アップロードできるファイル形式は jpeg, png, jpg, gif のみです。',
+            'img_path.max' => '画像ファイルの最大サイズは2MBです。',
         ];
     }
 }

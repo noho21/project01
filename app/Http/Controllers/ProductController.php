@@ -47,8 +47,8 @@ class ProductController extends Controller
             $validated = $request->validated();
             $company_id = $request->input("company_id");
 
-            if ($request->hasFile('file')) {
-                $file = $request->file('file');
+            if ($request->hasFile('img_path')) {
+                $file = $request->file('img_path');
                 $img_path = uniqid() . '_' . $file->getClientOriginalName();
                 $file->storeAs('public/images', $img_path); 
                 $validated['img_path'] = 'storage/images/' . $img_path;
@@ -122,11 +122,11 @@ class ProductController extends Controller
             $product->fill($validated);
             $product->company_id = $company_id;
 
-            if ($request->hasFile('file')) {
-                $file = $request->file('file');
+            if ($request->hasFile('img_path')) {
+                $file = $request->file('img_path');
                 $img_path = uniqid() . '_' . $file->getClientOriginalName();
-                $file->storeAs('public/images', $img_path);
-                $product->img_path = $img_path;
+                $file->storeAs('storages/images', $img_path);
+                $product->img_path = 'storage/images/' . $img_path;
             } else {
                 $product->img_path = $product->getOriginal('img_path');
             }
