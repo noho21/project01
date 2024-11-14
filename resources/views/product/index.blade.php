@@ -54,7 +54,7 @@
                     @endif
                 </td>
                 <td>
-                    <div class="button-group flex flex-row space-x-2">
+                    <div class="button-group flex flex-row space-x-2 h-10">
                         <a class="no-underline py-2 px-3 bg-blue-500 rounded-md text-white" href="{{ route('product.show', ['id' => $product -> id]) }}">詳細</a>
             
                         <form action="{{route('product.delete', ['id' => $product->id])}}" method="POST" data-id="{{ $product->id }}">
