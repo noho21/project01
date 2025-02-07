@@ -8,22 +8,21 @@
 </head>
 <body>
     <header class="bg-gray-800 text-white shadow-md fixed top-0 w-full z-10">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">      
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="text-lg font-bold">
                 <a href="/dashboard" class="hover:text-gray-400">STEP7</a>
             </div>
             <div class="flex items-center space-x-4">
-                <a href="{{ route('profile.edit') }}" class="text-gray-300 hover:text-white px-4 py-2 rounded-md">プロフィール</a>
+                <a href="{{ route('profile.edit') }}" class="text-gray-300 hover:text-white px-4 py-2 rounded-md hidden sm:inline-block">プロフィール</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md">ログアウト</button>
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md text-sm sm:text-base">ログアウト</button>
                 </form>
             </div>
         </div>
     </header>
-    <main class="pt-16">
+    <main class="pt-16 px-4 sm:px-8">
         @yield('content')
-
         @yield('scripts')
     </main>
 </body>

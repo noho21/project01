@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/products', [ProductController::class, 'index'])->name('product.index');
+Route::get('/product/index', [ProductController::class, 'index'])->name('product.index');
 
 /* 新規作成ページ */
 Route::get('/product/new', [ProductController::class, 'new'])->name('product.new');

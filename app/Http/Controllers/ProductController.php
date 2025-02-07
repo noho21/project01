@@ -31,6 +31,10 @@ class ProductController extends Controller
 
         $products = $query->paginate(5);
 
+        if ($request->ajax()) {
+            return response()->json($products); // AjaxリクエストならJSONを返す
+        }
+
         return view ('product.index', compact('products', 'companies'));
     }
 
