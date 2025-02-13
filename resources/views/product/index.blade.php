@@ -36,31 +36,8 @@
         <input type="submit" id="searchButton" class="w-1/6 h-10 bg-gray-300 outline-offset-2 focus:ring-2 shadow-xl rounded-md" value="検索">
     </form>
 
-    <table class="text-base table-auto border-4 w-full max-w-4xl mx-auto">
-        <thead class="border-2 h-14 text-center bg-cyan-500">
-            <tr>
-                <th>ID</th>
-                <th>商品画像</th>
-                <th>商品名</th>
-                <th>価格</th>
-                <th>在庫数</th>
-                <th>メーカー名</th>
-                <th>
-                    <a class="p-2 no-underline bg-orange-500 rounded-md text-black block md:inline-block" href="{{ route('product.new') }}">
-                        新規登録
-                    </a>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <div id="productList">
-                @include('product.product_list', ['products' => $products])
-            </div>
-        </tbody>
-    </table>
-
-    <div id="pagination" class="flex justify-center">
-            {{ $products->links() }}
+    <div id="productList">
+        @include('product.product_list', [ 'products' => $products ])
     </div>
 </div>
 
