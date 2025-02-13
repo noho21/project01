@@ -15,10 +15,24 @@ use Illuminate\Pagination\Paginator;
 class ProductController extends Controller
 {
     // 一覧ページ表示
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::paginate(5);
+        $query = Product::query(); 
+ 
+        if ($request->filled('product_name')) {
+            $query->where('product_name', 'like', '%' . $request->product_name . '%');
+        }
+        if ($request->filled('company_id')) {
+            $query->where('company_id', $request->company_id);
+        }
+
+        $products = $query->paginate(5);
         $companies = Company::all();
+
+        if ($request->ajax()) {
+            return response()->json(['products' => $products]);
+        }
+        
         return view('product.index', compact('products', 'companies'));
     }
 
