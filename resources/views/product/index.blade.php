@@ -25,7 +25,7 @@
     <form id="searchForm" class="space-x-4 flex justify-center">
         <input id="searchKeyword" class="w-2/6 h-10 rounded border-2" type="text" name="product_name" placeholder="検索キーワード" value="{{ request('product_name') }}">
         <select id="searchCompany" class="w-2/6 h-10 rounded border-2 text-center" name="company_id">
-                <option value="">全てのメーカー</option>
+                <option value="">メーカーを選択</option>
                 @foreach ($companies as $company)
                     <option value="{{ $company->id }}" @selected((string)request('company_id') === (string)$company->id)>
                         {{$company->company_name}}
@@ -33,20 +33,41 @@
                 @endforeach
         </select>
         
-        <button id="searchButton" class="w-1/6 h-10 bg-gray-300 outline-offset-2 focus:ring-2 shadow-xl rounded-md">検索</button>
+        <input type="submit" id="searchButton" class="w-1/6 h-10 bg-gray-300 outline-offset-2 focus:ring-2 shadow-xl rounded-md" value="検索">
     </form>
 
-    @include('product.product_list', ['products' => $products])
+    <table class="text-base table-auto border-4 w-full max-w-4xl mx-auto">
+        <thead class="border-2 h-14 text-center bg-cyan-500">
+            <tr>
+                <th>ID</th>
+                <th>商品画像</th>
+                <th>商品名</th>
+                <th>価格</th>
+                <th>在庫数</th>
+                <th>メーカー名</th>
+                <th>
+                    <a class="p-2 no-underline bg-orange-500 rounded-md text-black block md:inline-block" href="{{ route('product.new') }}">
+                        新規登録
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <div id="productList">
+                @include('product.product_list', ['products' => $products])
+            </div>
+        </tbody>
+    </table>
 
+    <div id="pagination" class="flex justify-center">
+            {{ $products->links() }}
+    </div>
 </div>
 
-        <div id="pagination" class="flex justify-center my-4">
-            {{ $products->links('vendor.pagination.tailwind') }}
-        </div>
 @endsection
 
 @section('scripts')
-    @vite('resources/js/product.js')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="product.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 @endsection

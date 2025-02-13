@@ -14,29 +14,38 @@ use Illuminate\Pagination\Paginator;
 
 class ProductController extends Controller
 {
-    /* 一覧ページ */
-    public function index(Request $request) {
+    // 一覧ページ表示
+    public function index()
+    {
         $companies = Company::all();
-        $product_name = $request->input('product_name', '');
-        $company_id = $request->input('company_id', '');
-        $query = Product::with('company');
-
-        if(!empty($product_name)) {
-            $query->where('product_name', 'like', '%' . $product_name . '%');
-        }
-
-        if(!empty($company_id)) {
-            $query->where('company_id', $company_id);
-        }
-
-        $products = $query->paginate(5);
-
-        if ($request->ajax()) {
-            return response()->json($products); // AjaxリクエストならJSONを返す
-        }
-
-        return view ('product.index', compact('products', 'companies'));
+        return view('product.index', compact('companies'));
     }
+
+    /* Ajaxデータ処理 */
+    public function getProducts(Request $request) {
+    $product_name = $request->input('product_name', '');
+    $company_id = $request->input('company_id', '');
+
+    $query = Product::with('company');
+
+    // 商品名でフィルタ
+    if ($request->has('product_name') && !empty($request->product_name)) {
+        $query->where('product_name', 'like', '%' . $request->product_name . '%');
+    }
+
+    // 会社でフィルタ
+    if ($request->has('company_id') && !empty($request->company_id)) {
+        $query->where('company_id', $request->company_id);
+    }
+
+    $products = $query->paginate(5); // ページネーションを適用
+
+     // 検索結果のHTMLを生成して返す
+     $html = view('product.product_list', compact('products'))->render();
+
+     return response()->json(['html' => $html]);
+    }
+
 
     /* 新規作成ページ */
     public function new(Request $request) {
@@ -57,7 +66,7 @@ class ProductController extends Controller
                 $file->storeAs('public/images', $img_path); 
                 $validated['img_path'] = 'storage/images/' . $img_path;
             } else {
-                $validated['img_path'] = "";
+                $validated['img_path'] = null;
             }
             
             $validated['company_id'] = $company_id;
@@ -129,7 +138,7 @@ class ProductController extends Controller
             if ($request->hasFile('img_path')) {
                 $file = $request->file('img_path');
                 $img_path = uniqid() . '_' . $file->getClientOriginalName();
-                $file->storeAs('storages/images', $img_path);
+                $file->storeAs('public/images', $img_path);
                 $product->img_path = 'storage/images/' . $img_path;
             } else {
                 $product->img_path = $product->getOriginal('img_path');
@@ -154,7 +163,7 @@ class ProductController extends Controller
 
         $product = Product::find($validated['id']);
         if (!$product) {
-            Log::error('商品が見つかりませんでした: ID ' . $id);
+            Log::warning('商品が見つかりませんでした: ID ' . $id);
             return redirect()->route('product.index')->with('error', '商品が見つかりませんでした');
         }
     
@@ -176,6 +185,8 @@ class ProductController extends Controller
             }
         }
 
-        return abort(404, 'ファイルが見つかりません。');
+        if (!$product || !$product->img_path || !Storage::exists($storedImg_path)) {
+            return redirect()->route('product.index')->with('error', '商品画像が見つかりません。');
+        }
     }
 }
