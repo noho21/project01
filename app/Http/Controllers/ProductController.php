@@ -31,6 +31,7 @@ class ProductController extends Controller
 
         if ($request->ajax()) {
             return response()->json(['products' => $products]);
+            $pagination = $products->links()->toHtml(); 
         }
         
         return view('product.index', compact('products', 'companies'));
@@ -94,10 +95,11 @@ class ProductController extends Controller
     public function show(Request $request, $id) {
         $product = Product::findOrFail($id);
 
-        return view('product.show', [
-            'product' => $product,
-            'product_id' => $id,
-        ]);
+        if (!$product) {
+            return redirect()->route('product.index')->with('error', '商品が見つかりません。');
+        }
+    
+        return view('product.show', compact('product'));
     }
 
     /* 編集ページ */
@@ -161,21 +163,19 @@ class ProductController extends Controller
     }
 
     /* 商品画像処理 */
-    public function getfile(Request $request, $id) {
-        $product = Product::find($id);
-        
-        if ($product && $product->img_path) {
-            $storedImg_path = 'public/images/' . $product->img_path;
+    //public function getfile(Request $request, $id) {
+    //    $product = Product::find($id);
+    //    
+    //    if ($product && $product->img_path) {
+    //       $storedImg_path = 'public/images/' . $product->img_path;
+    
+    //        if (Storage::exists($storedImg_path)) {
+    //            $mimeType = Storage::mimeType($storedImg_path);
+    
+    //            return response()->file(Storage::path($storedImg_path), ['Content-Type' => $mimeType]);
+    //        }
+    //    }
 
-            if (Storage::exists($storedImg_path)) {
-                $mimeType = Storage::mimeType($storedImg_path);
-
-                return Storage::download($storedImg_path, $product->img_path, ['Content-Type' => $mimeType]);
-            }
-        }
-
-        if (!$product || !$product->img_path || !Storage::exists($storedImg_path)) {
-            return redirect()->route('product.index')->with('error', '商品画像が見つかりません。');
-        }
-    }
+    //    return redirect()->route('product.index')->with('error', '商品画像が見つかりません。');
+    //}
 }

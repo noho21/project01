@@ -68,7 +68,8 @@ Route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('prod
 Route::put('/product/update/{id}', [ProductController::class, 'update'])->name('product.update');
 
 /* 削除処理 */
-Route::post('/product/delete', [ProductController::class, 'delete'])->name('product.delete');
+Route::delete('/product/delete', [ProductController::class, 'delete'])->name('product.delete');
 
 /* ファイル処理 */
-Route::get('/product/getfile/{id}', [ProductController::class, 'getfile'])->name('product.getfile');
+Route::get('/product/{id}/file', [ProductController::class, 'getfile'])->name('product.getfile');
+

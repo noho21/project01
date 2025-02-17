@@ -8,18 +8,6 @@
 
 <div class="overflow-x-auto mx-auto mt-2">
 
-    @if (session('success'))
-        <div class="bg-green-500 text-white font-bold py-2 px-4 rounded mb-4">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="bg-red-500 text-white font-bold py-2 px-4 rounded mb-4">
-            {{ session('error') }}
-        </div>
-    @endif
-
     <h3 class="text-left text-2xl w-50 py-5 m-auto">商品一覧画面</h3>
 
     <form id="searchForm" class="space-x-4 flex justify-center">

@@ -22,9 +22,10 @@
                     <tr>
                         <th class="py-3 px-4 bg-gray-200">商品画像</th>
                         <td class="py-3 px-4">
-                            <img class="border-4 rounded w-40 h-40 md:w-60 md:h-60 object-cover" 
-                                 src="{{ route('product.getfile', ['id'=>$product->id]) }}" 
-                                 alt="商品画像">
+                        <img class="border-4 rounded w-40 h-40 md:w-60 md:h-60 object-cover" 
+                            src="{{ asset($product->img_path) }}" 
+                            alt="商品画像">
+
                         </td>
                     </tr>
                     <tr>
