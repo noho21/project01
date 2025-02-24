@@ -25,13 +25,29 @@ class ProductController extends Controller
         if ($request->filled('company_id')) {
             $query->where('company_id', $request->company_id);
         }
+        if ($request->filled('min_price')) {
+            $query->where('price', '>=', $request->input('min_price'));
+        }
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', $request->input('max_price'));
+        }
+        if ($request->filled('min_stock')) {
+            $query->where('stock', '>=', $request->input('min_stock'));
+        }
+        if ($request->filled('max_stock')) {
+            $query->where('stock', '<=', $request->input('max_stock'));
+        }
 
         $products = $query->paginate(5);
         $companies = Company::all();
 
         if ($request->ajax()) {
-            return response()->json(['products' => $products]);
-            $pagination = $products->links()->toHtml(); 
+            $html = view('product.product_list', ['products' => $products])->render();
+            $pagination = $products->render();
+            return response()->json([
+                'html' => $html,
+                'pagination' => $pagination,
+            ]);
         }
         
         return view('product.index', compact('products', 'companies'));

@@ -20,7 +20,11 @@
                     </option>
                 @endforeach
         </select>
-        
+        <input type="number" id="minPrice" name="min_price" placeholder="最小価格">
+        <input type="number" id="maxPrice" name="max_price" placeholder="最大価格">
+        <input type="number" id="minStock" name="min_stock" placeholder="最小在庫">
+        <input type="number" id="maxStock" name="max_stock" placeholder="最大在庫">
+
         <input type="submit" id="searchButton" class="w-1/6 h-10 bg-gray-300 outline-offset-2 focus:ring-2 shadow-xl rounded-md" value="検索">
     </form>
 

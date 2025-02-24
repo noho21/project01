@@ -58,11 +58,19 @@ $(document).ready(function() {
 
         let product_name = $("#searchKeyword").val();
         let company_id = $("#searchCompany").val();
+        let min_price = $("#minPrice").val();
+        let max_price = $("#maxPrice").val();
+        let min_stock = $("#minStock").val();
+        let max_stock = $("#maxStock").val();
 
         // 空の検索条件でもサーバーに送信
-        if (product_name.trim() === "" && company_id === "") {
+        if (product_name.trim() === "" && company_id === "" && min_price === "" && max_price === "" && min_stock === "" && max_stock === "") {
             product_name = "";  // 空文字を送信
             company_id = "";    // 空文字を送信
+            min_price = "";     // 空文字を送信
+            max_price = "";     // 空文字を送信
+            min_stock = "";     // 空文字を送信
+            max_stock = "";     // 空文字を送信
         }
 
         //Ajaxリクエスト処理
@@ -72,20 +80,23 @@ $(document).ready(function() {
             type: "GET",
             data: {
                 product_name: product_name,
-                company_id: company_id
+                company_id: company_id,
+                min_price: min_price,
+                max_price: max_price,
+                min_stock: min_stock,
+                max_stock: max_stock
             },
             dataType: "json",
             success: function(response) {
                 console.log("検索成功", response);
-                console.log("検索条件:", {product_name: product_name, company_id: company_id}); // データ確認
+                console.log("検索条件:", {product_name, company_id, min_price, max_price, min_stock, max_stock}); // データ確認
 
-                if (response.html && response.pagination) {
-                    $("#productList").html(response.html); // 商品リストを更新
-                    $("#pagination").html(response.pagination); // ページネーションを更新
-                    history.pushState(null, "", url); // URL も更新
-                } else {
-                    console.error("サーバーのレスポンスが不正です", response);
+                // html があれば商品リストを更新
+                if (response.html) {
+                    $("#productList").html(response.html);
                 }
+                // pagination が空でも上書き（空の場合は非表示になる）
+                $("#pagination").html(response.pagination || '');
             },
             error: function(xhr, status, error) {
                 console.log("検索失敗", xhr, status, error);
