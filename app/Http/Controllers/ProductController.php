@@ -38,6 +38,19 @@ class ProductController extends Controller
             $query->where('stock', '<=', $request->input('max_stock'));
         }
 
+        // ソート処理
+        $sort_column = $request->input('sort_column', 'id');
+        $sort_direction = $request->input('sort_direction', 'desc');
+
+        // 許可するカラムのみソート可能にする
+        $sortable_columns = ['id', 'price', 'stock'];
+        if (in_array($sort_column, $sortable_columns)) {
+            $query->orderBy($sort_column, $sort_direction);
+        } else {
+            // 不正なカラムの場合は ID の降順
+            $query->orderBy('id', 'desc');
+        }
+
         $products = $query->paginate(5);
         $companies = Company::all();
 

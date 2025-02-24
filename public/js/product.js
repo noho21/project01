@@ -47,7 +47,7 @@ $(document).ready(function() {
                             confirmButtonText: 'OK'
                         });
                     }
-                })
+                });
             }
         });
     }); 
@@ -109,4 +109,54 @@ $(document).ready(function() {
             }
         });
     });
+
+        // ソートの初期設定
+    let sortColumn = "id";
+    let sortDirection = "desc";  // 初期表示はIDの降順
+
+    // ソート可能なカラムを定義
+    const sortableColumns = ["id", "price", "stock"];
+
+    // テーブルヘッダーのクリックイベント
+    $(document).on("click", ".sortable", function() {
+        let column = $(this).data("sort");
+
+        // ソート可能なカラムかどうかを確認
+        if (sortableColumns.includes(column)) {
+            // 同じカラムがクリックされたら昇順・降順を切り替える
+            if (sortColumn === column) {
+                sortDirection = (sortDirection === "asc") ? "desc" : "asc";
+            } else {
+                sortColumn = column;
+                sortDirection = "asc";  // 別のカラムをクリックしたら昇順にする
+            }
+
+            // Ajaxリクエストを送信
+            $.ajax({
+                url: "/product",
+                type: "GET",
+                data: {
+                    sort_column: sortColumn,
+                    sort_direction: sortDirection
+                },
+                dataType: "json",
+                success: function(response) {
+                    console.log("ソート成功", response);
+                    if (response.html) {
+                        $("#productList").html(response.html);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log("ソート失敗", xhr, status, error);
+                    Swal.fire({
+                        title: 'ソートに失敗しました',
+                        text: 'もう一度お試しください。',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        }
+    });
+
 });

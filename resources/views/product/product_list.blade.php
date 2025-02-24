@@ -1,11 +1,11 @@
 <table class="text-base table-auto border-4 w-full max-w-4xl mx-auto">
     <thead class="border-2 h-14 text-center bg-cyan-500">
         <tr>
-            <th>ID</th>
+            <th data-sort="id" class="sortable">ID</th>
             <th>商品画像</th>
             <th>商品名</th>
-            <th>価格</th>
-            <th>在庫数</th>
+            <th data-sort="price" class="sortable">価格</th>
+            <th data-sort="stock" class="sortable">在庫数</th>
             <th>メーカー名</th>
             <th>
                 <a class="p-2 no-underline bg-orange-500 rounded-md text-black block md:inline-block" href="{{ route('product.new') }}">
