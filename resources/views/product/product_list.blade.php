@@ -41,6 +41,14 @@
                         </form>
                     </div>
                 </td>
+                <td>
+                    @if($product->stock > 0)
+                        <button class="purchase-button bg-green-500 text-white px-3 py-1 rounded" data-id="{{ $product->id }}">購入</button>
+                    @else
+                        <span class="text-red-500">売り切れ</span>
+                    @endif
+                </td>
+
             </tr>
         @endforeach
     </tbody>

@@ -159,4 +159,21 @@ $(document).ready(function() {
         }
     });
 
+    $(document).on('click', '.purchase-button', function () {
+        let productId = $(this).data('id');
+        $.ajax({
+            url: "/api/sale",
+            type: "POST",
+            data: JSON.stringify({ id: productId }),
+            contentType: "application/json",
+            success: function (response) {
+                alert(response.message);
+                location.reload();
+            },
+            error: function (xhr) {
+                alert(xhr.responseJSON.message);
+            }
+        });
+    });    
+
 });
