@@ -12,11 +12,12 @@ class SaleController extends Controller
 {
     public function store(Request $request)
     {
-        $product = Product::find($request->id);
+        // バリデーション追加
+        $request->validate([
+            'id' => 'required|integer|exists:products,id',
+        ]);
 
-        if (!$product) {
-            return response()->json(['message' => '商品が見つかりません'], 404);
-        }
+        $product = Product::find($request->id);
 
         if ($product->stock < 1) {
             return response()->json(['message' => '在庫不足です'], 400);
@@ -25,20 +26,17 @@ class SaleController extends Controller
         DB::beginTransaction();
         try {
             // 在庫を減らす
-            $product->stock -= 1;
-            $product->save();
+            $product->decrement('stock');
 
             // 購入履歴を登録
             Sale::create([
                 'product_id' => $product->id,
-                'quantity' => 1,
-                'sale_at' => now()
+                'quantity' => 1
             ]);
 
             DB::commit();
             return response()->json([
-                'message' => '購入完了',
-                'product' => $product
+                'message' => '購入完了'
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();

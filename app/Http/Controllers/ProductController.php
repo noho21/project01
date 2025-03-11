@@ -182,11 +182,14 @@ class ProductController extends Controller
         ]);
 
         $product = Product::find($validated['id']);
+        // if (!$product) {
+        //     Log::warning('商品が見つかりませんでした: ID ' . $id);
+        //     return redirect()->route('product.index')->with('error', '商品が見つかりませんでした');
+        // }
         if (!$product) {
-            Log::warning('商品が見つかりませんでした: ID ' . $id);
-            return redirect()->route('product.index')->with('error', '商品が見つかりませんでした');
+            return redirect()->route('product.index')->withErrors(['message' => '商品が見つかりませんでした']);
         }
-    
+        
         $product->delete();
         return redirect()->route('product.index')->with('success', '商品が削除されました');
     }

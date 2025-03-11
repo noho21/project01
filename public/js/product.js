@@ -162,7 +162,7 @@ $(document).ready(function() {
     $(document).on('click', '.purchase-button', function () {
         let productId = $(this).data('id');
         $.ajax({
-            url: "/api/sale",
+            url: "/api/sales",
             type: "POST",
             data: JSON.stringify({ id: productId }),
             contentType: "application/json",
@@ -171,8 +171,12 @@ $(document).ready(function() {
                 location.reload();
             },
             error: function (xhr) {
-                alert(xhr.responseJSON.message);
-            }
+                if (xhr.status === 400) {
+                    alert("在庫がありません。");
+                } else {
+                    alert("購入に失敗しました。");
+                }
+            }            
         });
     });    
 

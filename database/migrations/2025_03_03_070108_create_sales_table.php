@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->onDelete('cascade'); // 商品ID（外部キー）
             $table->integer('quantity'); // 購入数量
-            $table->timestamp('sale_at'); // 購入日時
             $table->timestamps();
         });
     }
