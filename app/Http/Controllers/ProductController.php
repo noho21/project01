@@ -42,16 +42,16 @@ class ProductController extends Controller
         $sort_column = $request->input('sort_column', 'id');
         $sort_direction = $request->input('sort_direction', 'desc');
 
-        // 許可するカラムのみソート可能にする
+         // 許可するカラムのみソート可能
         $sortable_columns = ['id', 'price', 'stock'];
-        if (in_array($sort_column, $sortable_columns)) {
+        if (in_array($sort_column, $sortable_columns) && in_array($sort_direction, ['asc', 'desc'])) {
             $query->orderBy($sort_column, $sort_direction);
         } else {
-            // 不正なカラムの場合は ID の降順
+            // 不正な値が来た場合は ID の降順
             $query->orderBy('id', 'desc');
         }
-
-        $products = $query->paginate(5);
+        
+        $products = $query->paginate(5)->appends($request->query()); // クエリパラメータを保持
         $companies = Company::all();
 
         if ($request->ajax()) {

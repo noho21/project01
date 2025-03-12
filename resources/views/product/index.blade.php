@@ -23,10 +23,10 @@
             </select>
         </div>
         <div class="flex justify-center space-x-3 py-3">
-            <input type="number" id="minPrice" class="border-2 border-pink-300 rounded-md text-left" name="min_price" placeholder="最小価格">
-            <input type="number" id="maxPrice" class="border-2 border-pink-400 rounded-md text-left" name="max_price" placeholder="最大価格">
-            <input type="number" id="minStock" class="border-2 border-pink-300 rounded-md text-left" name="min_stock" placeholder="最小在庫">
-            <input type="number" id="maxStock" class="border-2 border-pink-400 rounded-md text-left" name="max_stock" placeholder="最大在庫">
+            <input type="number" id="minPrice" class="border-2 border-pink-300 rounded-md text-left" name="min_price" value="{{ request('min_price') }}" placeholder="最小価格">
+            <input type="number" id="maxPrice" class="border-2 border-pink-400 rounded-md text-left" name="max_price" value="{{ request('max_price') }}" placeholder="最大価格">
+            <input type="number" id="minStock" class="border-2 border-pink-300 rounded-md text-left" name="min_stock" value="{{ request('min_stock') }}" placeholder="最小在庫">
+            <input type="number" id="maxStock" class="border-2 border-pink-400 rounded-md text-left" name="max_stock" value="{{ request('max_stock') }}" placeholder="最大在庫">
         </div>
         <div class="flex justify-center">
             <input type="submit" id="searchButton" class="w-1/6 h-10 bg-gray-300 outline-offset-2 focus:ring-2 shadow-xl rounded-md" value="検索">

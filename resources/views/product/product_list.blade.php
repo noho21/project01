@@ -1,16 +1,44 @@
 <table class="text-base table-auto border-4 w-full max-w-4xl mx-auto">
     <thead class="border-2 h-14 text-center bg-cyan-500">
         <tr>
-            <th data-sort="id" class="sortable">ID</th>
+            <!-- <th data-sort="id" class="sortable">ID</th> -->
+            <th>
+                <a href="{{ route('product.index', array_merge(request()->query(), ['sort_column' => 'id', 'sort_direction' => 'asc'])) }}">
+                    ID⏫
+                </a>
+                <br>
+                <a href="{{ route('product.index', array_merge(request()->query(), ['sort_column' => 'id', 'sort_direction' => 'desc'])) }}">
+                    ID⏬
+                </a>
+            </th>
             <th>商品画像</th>
             <th>商品名</th>
-            <th data-sort="price" class="sortable">価格</th>
-            <th data-sort="stock" class="sortable">在庫数</th>
+            <!-- <th data-sort="price" class="sortable">価格</th> --> 
+            <th>
+                <a href="{{ route('product.index', array_merge(request()->query(), ['sort_column' => 'price', 'sort_direction' => 'asc'])) }}">
+                    価格⏫
+                </a>
+                <br>
+                <a href="{{ route('product.index', array_merge(request()->query(), ['sort_column' => 'price', 'sort_direction' => 'desc'])) }}">
+                    価格⏬
+                </a>
+            </th>
+            <th>
+                <a href="{{ route('product.index', array_merge(request()->query(), ['sort_column' => 'stock', 'sort_direction' => 'asc'])) }}">
+                    在庫数⏫
+                </a> 
+                <br>
+                <a href="{{ route('product.index', array_merge(request()->query(), ['sort_column' => 'stock', 'sort_direction' => 'desc'])) }}">
+                    在庫数⏬
+                </a>
+            </th>
             <th>メーカー名</th>
             <th>
                 <a class="p-2 no-underline bg-orange-500 rounded-md text-black block md:inline-block" href="{{ route('product.new') }}">
                     新規登録
                 </a>
+            </th>
+            <th>
             </th>
         </tr>
     </thead>
